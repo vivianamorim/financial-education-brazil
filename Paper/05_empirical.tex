@@ -1,0 +1,14 @@
+\section{Identification Strategy} \label{sec:identification}
+
+To estimate the causal impacts of the program on the outcomes of interest, we estimate the following reduced-form regression:
+\begin{align} 
+     Y_{iksm}= \alpha + \delta T_{iksm} + \sum_{n=1}^{6} \gamma_n  + \epsilon_{iksm} 
+     \label{eq:Y}
+\end {align}
+
+\noindent
+
+in which $Y$ is the outcome variable (e.g., financial proficiency) of student $i$ in grade $k$ at school $s$ in municipality $m$, $T$ is a binary variable that is equal to 1 if the student belongs to a school assigned to the program (treatment) and 0 otherwise, $\gamma_n$ are strata fixed effects, and $\epsilon$ is the idiosyncratic error.\footnote{\autoref{tab:sample} shows that the cluster-randomized trial has six clusters.}
+
+The parameter of interest, $\delta$, measures the intention-to-treat (ITT), the treatment effect on students of schools randomly assigned to receive the treatment. The standard error is clustered at the school level, the randomization unit. It is worth noticing that this regression does not distinguish the effect between grades. To assess the program's effect only for elementary, only for middle school, and for each grade included in the pilot, we separately re-estimate \autoref{eq:Y} for each one of these samples.\footnote {We also estimate standard error clustering at the class-school level. The results are very similar and are available upon request.} In addition to that, we follow \cite{firpo2009unconditional} and estimate unconditional quantile intention-to-treat (UQITT) effects to check whether the program has distinct impacts across the financial proficiency distribution.\footnote{We estimate the unconditional UQITT in two steps. We first run a regression of Y on constant and strata dummies and save the residuals. We then use the residuals as a dependent variable to estimate the UQITT.} 
+

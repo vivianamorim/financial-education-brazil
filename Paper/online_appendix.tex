@@ -1,0 +1,277 @@
+
+\documentclass[
+	% -- opções da classe memoir --
+	article,			% indica que é um artigo acadêmico
+	12pt,				% tamanho da fonte
+	oneside,			% para impressão apenas no verso. Oposto a twoside
+	a4paper,			% tamanho do papel. 
+	]{article}
+% ---
+% Pacotes
+% ---
+\usepackage{cmap}				% Mapear caracteres especiais no PDF 
+\usepackage{times}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage[USenglish]{babel}
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 			% Lista de simbolos
+\usepackage{color}				% Controle das cores
+\usepackage{color, colortbl}
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{tabularx}           % in the preamble
+\usepackage{amsmath,amssymb}
+\usepackage{graphics,graphicx} %linalgjh
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{caption,booktabs,array}
+\newcommand{\rowgroup}[1]{\hspace{-1em}#1}
+\usepackage[flushleft]{threeparttable}
+\usepackage{subfigure}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage{comment}
+\usepackage{setspace}
+\usepackage{subfigure}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{chngcntr} %Para recomecar do 1 a numeracao das tabelas dos anexos
+\usepackage{breqn} 
+\hyphenpenalty=10000
+\makeatletter% Set distance from top of page to first float
+\setlength{\@fptop}{5pt}
+\makeatother
+\usepackage{float}
+\usepackage{hyperref}
+	
+\definecolor{Gray}{gray}{0.9}
+% 
+% Estout related commands
+% 
+\renewcommand{\arraystretch}{1.1}
+\newcommand{\sym}[1]{\rlap{#1}}
+\let\estinput=\input% define a new input command so that we can still flatten the document
+\newcommand{\estwide}[3]{
+  \vspace{0.3cm}{
+    \begin{tabular}
+      {\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}l{#2}{#3}}
+      \toprule
+      \addlinespace[0.3cm]
+      \estinput{#1}
+      \bottomrule
+      \addlinespace[0.3cm]
+    \end{tabular}
+  }
+} 
+\newcommand{\estauto}[3]{
+  \vspace{0.3cm}{
+    \begin{tabular}{l{#2}{#3}}
+      \toprule
+      \addlinespace[0.3cm]
+      \estinput{#1}
+      \bottomrule
+      \addlinespace[0.3cm]
+    \end{tabular}
+  }
+}
+
+% Allow line breaks with \\ in specialcells
+  \newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+% 
+% Custom subcaptions
+% 
+% Note/Source/Text after Tables
+\newcommand{\figtext}[1]{
+  \captionsetup{justification=justified,font=footnotesize}
+  \caption{\hspace{0pt}\hangindent=0.0em #1}
+}
+\newcommand{\fignote}[1]{\figtext{\emph{Note:~}~#1}}
+\newcommand{\figsource}[1]{\figtext{\emph{Source:~}~#1}}
+% Add significance note with \starnote
+\newcommand{\starnote}{\figtext{ p < 0.1,  p < 0.05,  p < 0.01. Standard errors in parentheses.}}
+
+% 
+% siunitx
+% 
+\sisetup{
+  detect-mode,
+  tight-spacing   = true,
+  group-digits    = integer,
+  input-signs   = ,
+  input-symbols   = ( ) [ ] - + ,
+  input-open-uncertainty  = ,
+  input-close-uncertainty = ,
+  table-align-text-post = false,
+  input-ignore={,},
+  group-separator={,},
+  group-minimum-digits=4,
+  input-decimal-markers={.}
+}
+% Primitive input to solve the problem with \toprule inside inputed tables
+\makeatletter
+\newcommand\primitiveinput[1]
+{\@@input #1 }
+\makeatother
+
+
+\geometry{a4paper,tmargin=1.5in,bmargin=1.5in,lmargin=1.5in,rmargin=1.5in}
+
+% ---
+% Pacotes de citações
+% --- 
+\usepackage[round]{natbib}
+\bibliographystyle{ecta}
+%\usepackage{apacite}
+
+% ---
+% Configurações de aparência do PDF final
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+% informações do PDF
+\makeatletter
+\usepackage{hyperref}
+\hypersetup{
+     	%pagebackref=true,
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=1000
+\hbadness=10000
+% --- 
+
+% ---
+% compila o indice
+% ---
+%\makeindex
+% ---
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{0cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.5cm}  % tente também \onelineskip
+
+% Espaçamento simples
+\doublespacing
+
+\graphicspath{{Figures/}}
+
+\usepackage{titling}
+
+\setlength{\droptitle}{-8em}   % This is your set screw
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\title{Experimental Evaluation of a Financial Education Program in Elementary and Middle School Grades\thanks{Acknowledgements: We would like to thank Cláudia Forte, Alzira Silva, Thiago Nascimento, and Cláudia Donega from the Brazilian Association of Financial Education (AEF-Brasil), José Alexandre Vasco from the Securities and Exchange Commission of Brazil (CVM), and the staff from Municipal Secretariats of Education from Manaus and Joinville. We thank the seminar participants from the Sao Paulo School of Economics at Getulio Vargas Foundation, Insper Institute of Education and Research, the 39\textsuperscript{th} grade  Brazilian Econometrics Society Meeting (SBE), and the 3ie-IFPRI Seminar Series. We also thank Arianna Legovini, Bilal Zia, Miriam Bruhn, Florence Kondylis, and an anonymous referee for their comments and suggestions. Finally, we thank DIME i2i, DEC Research Support Budget, and the Brazil Country Office for funding support.}}
+
+
+\author{Caio Piza\thanks{Development Impact Evaluation Unit (DIME) of the World Bank. Contact: caiopiza@worldbank.org} \and Isabela  Furtado\thanks{Insper - Institute of Education and Research. Contact: isabelabf@insper.edu.br} \and Vivian Amorim \thanks{Development Impact Evaluation Unit (DIME) of the World Bank. Contact: vamorim@worldbank.org}}
+
+% ---
+
+\begin{document}
+
+\maketitle
+
+
+\section{Online Appendix}
+
+
+
+\subsection{Mediation analysis} \label{sec:mediation}
+
+The literature on financial education works with an implicit theory of change that poses that improvements in individuals' financial proficiency should mediate changes in financial decision-making (\citealt{Fernandes2014}; \citealt{Lusardi2014}). We use mediation causal effects to empirically test the hypothesis embedded in the theory of change. 
+ \cite{carpena2018causal} tested this relationship with microfinance borrowers in Gujarat, India. They found mixed results concerning the role of financial literacy as a mediator factor for behavioral change. 
+
+Our set of estimates is the first attempt to isolate the effect of financial literacy on the attitudes and behavioral outcomes of elementary school students. We follow \cite{imai2011unpacking} and decompose the treatment effect estimate into the average causal mediation effect (ACME), and the average causal direct effect (ADE). The goal of this exercise is to estimate the share of the treatment effect on attitudes and behavioral outcomes that are due to improvements in financial proficiency and the share that comes directly from the program. Since we did not design the experiment to obtain clean estimates of the ACME and ADE, our results should be seen as an attempt to shed light on this overlooked hypothesis.   
+
+To assess whether the increase in financial proficiency impacts attitudes and behavior down the line, we rely on the sequential ignorability assumption. The first part of the assumption assumes that conditioned on pre-treatment confounders the treatment assignment is orthogonal to the potential outcomes and the mediator outcome (financial proficiency). The second part of the assumption implies that the `observed mediator is ignorable given the actual treatment status and pre-treatment confounders' \citep{imai2011unpacking}. In formal terms, the conditions are the following:
+
+\begin{align} 
+\{Y_i(t', m), M_i(t)\} \perp \!\!\! \perp T_i | X_i = x, 
+\end {align}
+\begin{align} 
+Y_i(t',m) \perp \!\!\! \perp M_i(t) | T_i =t, X_i = x  
+\end {align}
+
+
+This second part of the assumption is the strongest, even in the presence of random assignment. It poses that conditional on the actual treatment (not treatment assignment) and a vector of pre-treatment confounders, the outcome is independent of the mediator factor. Note that in our case this implies an assumption that attitudinal and behavioral outcomes are orthogonal to financial proficiency once we control for the actual treatment and a vector of observed school-level characteristics. 
+
+We estimate the ADE and ACME running the following regression equations:\footnote{We use Hicks and Tingley (2011)'s medeff command in Stata}
+
+\begin{align} 
+     Y_{iksm}= \alpha_1 + \alpha_2 T + \eta X_{sm} + \Sigma{C_j} + u_{iksm} 
+\end {align}
+
+\begin{align} 
+     Y_{iksm}= \beta_1 + \beta_2 T + \gamma M_{iksm} + \zeta X_{sm} + \Sigma{C_j} + v_{iksm} 
+\end {align}
+
+\noindent
+where $M$ is the financial proficiency and $Y$ is the attitudinal/behavioral outcome variable of student $i$ in grade $k$ at school $s$ in municipality $m$, $T$ and $Z$ are defined as before, and $X$ is a vector of school characteristics that includes information on school infrastructure - whether computer lab, science lab, sports facilities, garbage collection, garbage recycling, and sewage connection - and management complexity.\footnote{Management complexity is measured by a categorical variable that ranges from  1 to 3 where 1 refers to schools that offer one or two shifts and have up to 300 students, 2 represents schools that offer 2 or 3 shifts, have 1,000 students, and offer vocational training in high school, and 3 is for schools with 3 shifts, at least 500 students, and the option of vocation training in high school.} Coefficients $\alpha_2$ and $\beta_2$, correspond to the average total treatment effect (ITT) and the ADE respectively. \cite{imai2011unpacking} shows that the ACME is given by the difference between $\alpha_2$ and $\beta_2$. We estimate the standard errors using Bootstrap with 1,000 repetitions. 
+
+To test whether the sequential ignorability assumption is likely to hold in our context, we undertake a sensitivity analysis that tests for the correlation between the residuals of equations (6) and (7) (\autoref{fig:te_pooled}, \autoref{fig:te_elementary}, and \autoref{fig:te_midle}).   
+
+
+\newgeometry{left = 2.54cm, right = 2.54cm, top = 2cm, bottom = 1.5cm}
+
+
+\begin{figure} [h!]
+		\caption{Sensitivity analysis: average causal mediation effect versus $\rho$, pooled (elementary and middle school)}
+		\centering
+		\includegraphics{FigureC3.pdf}
+        \label{fig:te_pooled}
+
+        \raggedright
+
+     {\footnotesize Source:  The dependent variables are equal to 1 if students talk to parents or friends about financial subjects, if they use a piggy bank, financial services, or receive an allowance from their parents, and 0 otherwise.  Sensitive analysis runs using the command \textit{medeff} in \textit{Stata}. Standard errors are estimated with bootstrap with 1000 repetitions. ACME: Average Casual Mediation Effect. }
+     
+\end{figure}
+
+\begin{figure} [h!]
+		\caption{Sensitivity analysis: average causal mediation effect versus $\rho$, elementary education}
+		\centering
+		\includegraphics{FigureC4.pdf}
+        \label{fig:te_elementary}
+        
+     \raggedright
+
+     {\footnotesize Source:  The dependent variables are equal to 1 if students talk to parents or friends about financial subjects, if they use a piggy bank, financial services, or receive an allowance from their parents, and 0 otherwise.  Sensitive analysis runs using the command \textit{medeff} in \textit{Stata}. Standard errors are estimated with bootstrap with 1000 repetitions. ACME: Average Casual Mediation Effect. }
+\end{figure}
+
+\begin{figure} [h!]
+		\caption{Sensitivity analysis: average causal mediation effect versus $\rho$, middle school}
+		\centering
+		\includegraphics{FigureC5.pdf}
+        \label{fig:te_midle}
+
+                \raggedright
+
+     {\footnotesize Source:  The dependent variables are equal to 1 if students talk to parents or friends about financial subjects, if they use a piggy bank, financial services, or receive an allowance from their parents, and 0 otherwise.  Sensitive analysis runs using the command \textit{medeff} in \textit{Stata}. Standard errors are estimated with bootstrap with 1000 repetitions. ACME: Average Casual Mediation Effect. }
+\end{figure}
+
+
+\newpage
+\newgeometry{a4paper,tmargin=1.5in,bmargin=1.5in,lmargin=1.5in,rmargin=1.5in}
+
+
+\bibliography{referencesp1}
+
+\end{document}
