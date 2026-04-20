@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"C:/Users/vivia/OneDrive/Documentos/GitHub/financial-education-brazil\" log --oneline -20)",
+      "Bash(git -C \"C:/Users/vivia/OneDrive/Documentos/GitHub/financial-education-brazil\" diff Paper/AEJ_paper.tex)",
+      "Bash(python -c ' *)",
+      "Read(//tmp/**)",
+      "Bash(python)",
+      "Bash(python \"C:/Users/vivia/AppData/Local/Temp/fill_xlsx.py\")",
+      "Bash(pandoc --track-changes=all \"Relatorio_EF_Ago2016.docx\" -o \"C:/Users/vivia/AppData/Local/Temp/relatorio_ef.md\")",
+      "Bash(where pandoc *)",
+      "Read(//c/Users/vivia/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/f8bce592-18c9-44f6-a5f3-826cfb8628a9/3424fc07-c606-4eac-b980-929ff5187b45/skills/docx/scripts/**)",
+      "Bash(python -c \"import docx; print\\(docx.__version__\\)\")",
+      "Bash(pip install *)",
+      "WebSearch",
+      "WebFetch(domain:bibliotecadigital.fgv.br)",
+      "WebFetch(domain:repositorio.fgv.br)",
+      "WebFetch(domain:bdtd.ibict.br)",
+      "WebFetch(domain:gmw.investidor.gov.br)",
+      "Bash(where pdflatex *)",
+      "Bash(where latexmk *)",
+      "Bash(pdflatex -interaction=nonstopmode -halt-on-error AEJ_paper.tex)",
+      "Bash(pdflatex -interaction=nonstopmode AEJ_paper.tex)",
+      "Bash(pdflatex -interaction=nonstopmode pilot_preview.tex)",
+      "Bash(rm -f pilot_preview.tex pilot_preview.pdf pilot_preview.aux pilot_preview.log pilot_preview.out)",
+      "Bash(bibtex AEJ_paper)",
+      "Bash(grep -i \"\\\\.bib$\")",
+      "Bash(npm list *)",
+      "Bash(npm install *)"
+    ]
+  }
+}

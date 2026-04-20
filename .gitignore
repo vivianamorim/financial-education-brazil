@@ -1,0 +1,18 @@
+# PDFs dos livros didáticos da ENEF — usados como referência, baixados de gmw.investidor.gov.br
+ENEF_livros/*.pdf
+
+# LaTeX build artifacts
+Paper/*.aux
+Paper/*.log
+Paper/*.bbl
+Paper/*.blg
+Paper/*.out
+Paper/*.toc
+Paper/*.synctex.gz
+Paper/*.fdb_latexmk
+Paper/*.fls
+
+# Stata / OS
+*.tmp
+.DS_Store
+Thumbs.db
