@@ -26,7 +26,30 @@
       "Bash(bibtex AEJ_paper)",
       "Bash(grep -i \"\\\\.bib$\")",
       "Bash(npm list *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Read(//c/Users/vivia/AppData/Roaming/Code/User/**)",
+      "Bash(tasklist)",
+      "Bash(grep -E \"\\\\.\\(pdf|log|aux\\)$\")",
+      "Bash(rm -f *.aux *.bbl *.blg *.out *.toc *.synctex.gz)",
+      "Bash(grep -B1 -A3 \"Misplaced \\\\\\\\\\\\\\\\omit\\\\|Misplaced \\\\\\\\\\\\\\\\span\" AEJ_paper.log)",
+      "Bash(awk '/Misplaced \\\\\\\\omit/{flag=1; c=0} flag{print; c++; if\\(c>=8\\){flag=0}}' AEJ_paper.log)",
+      "Bash(grep -n \"^\\\\\\\\\\\\\\\\multicolumn\" \"C:/Users/vivia/OneDrive/Documentos/GitHub/financial-education-brazil/Paper/AEJ_paper.tex\")",
+      "WebFetch(domain:www.atlasbrasil.org.br)",
+      "WebFetch(domain:cidades.ibge.gov.br)",
+      "WebFetch(domain:pt.wikipedia.org)",
+      "WebFetch(domain:www.nsctotal.com.br)",
+      "WebFetch(domain:datacatarina.com.br)",
+      "WebFetch(domain:datapedia.info)",
+      "WebFetch(domain:www.ibge.gov.br)",
+      "WebFetch(domain:web.archive.org)",
+      "WebFetch(domain:sidra.ibge.gov.br)",
+      "WebFetch(domain:api.sidra.ibge.gov.br)",
+      "Bash(curl -sk \"https://apisidra.ibge.gov.br/values/t/1549/n6/4209102,1302603/v/allxp/p/2010\")",
+      "Bash(curl -sk \"https://apisidra.ibge.gov.br/values/t/1549/n6/4209102,1302603/v/93,364/p/2010/c58/all\")",
+      "Bash(curl -sk \"https://apisidra.ibge.gov.br/values/t/5938/n6/4209102,1302603/v/37,498,513/p/2015\")",
+      "Bash(curl -sk \"https://apisidra.ibge.gov.br/values/t/5938/n6/4209102,1302603/v/all/p/2015\")",
+      "Skill(update-config)",
+      "Skill(update-config:*)"
     ]
   }
 }

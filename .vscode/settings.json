@@ -1,0 +1,41 @@
+{
+  "latex-workshop.latex.rootFile.doNotPrompt": true,
+  "latex-workshop.latex.rootFile.useSubFile": false,
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "pdflatex",
+      "command": "C:\\Users\\vivia\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\pdflatex.exe",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOCFILE%"
+      ]
+    },
+    {
+      "name": "bibtex",
+      "command": "C:\\Users\\vivia\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\bibtex.exe",
+      "args": ["%DOCFILE%"]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdflatex -> bibtex -> pdflatex x 2",
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+    },
+    {
+      "name": "pdflatex only",
+      "tools": ["pdflatex"]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.build.forceRecipeUsage": true,
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.clean.subfolder.enabled": false,
+  "latex-workshop.message.log.show": true,
+  "[latex]": {
+    "editor.wordWrap": "on"
+  }
+}

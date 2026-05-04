@@ -39,7 +39,8 @@
 \usepackage{float}
 \usepackage{blindtext}
 \usepackage{chngcntr} %Para recomecar do 1 a numeracao das tabelas dos anexos
-\usepackage{breqn} 
+\usepackage{breqn}
+\usepackage{microtype}
 \hyphenpenalty=10000
 \makeatletter% Set distance from top of page to first float
 \setlength{\@fptop}{5pt}
@@ -164,10 +165,10 @@
 \setlength{\parindent}{0cm}
 
 % Controle do espaçamento entre um parágrafo e outro:
-\setlength{\parskip}{0.5cm}  % tente também \onelineskip
+\setlength{\parskip}{6pt}
 
-% Espaçamento simples
-\doublespacing
+% Espaçamento entre linhas
+\onehalfspacing
 
 \graphicspath{{../Output/Figures/}}
 
@@ -212,12 +213,19 @@ This paper investigates whether providing financial education in elementary and 
 \setcounter{page}{1}
 
 \input{01_intro}
+\newpage
 \input{02_pilot}
+\newpage
 \input{03_data}
+\newpage
 \input{04_implementation}
+\newpage
 \input{05_empirical}
+\newpage
 \input{06_results}
+\newpage
 \input{07_conclusion}
+\newpage
 
 
 \bibliography{referencesp1}
@@ -305,7 +313,7 @@ This paper investigates whether providing financial education in elementary and 
  \label{tab:sample}
         \begin{tablenotes}
               \fontsize{9}{9}\selectfont 
-              \item Notes: Number of schools managed by the municipal governments of Joinville and Manaus (Education Census, 2015). Following the guidelines of the Department of Education, 53 schools located in riverside communities in Manaus are not included in the pilot, due to difficulties in accessing some of these areas. In Joinville, all 72 schools are included in the randomization. In Manaus, 36 out of 202 schools offering first to fifth grade are randomized into treatment and control groups. The 36 schools were selected based on the distribution of the Educational Development Index for those grades in 2013. Also, in Manaus, 28 out of 35 schools offering sixth to ninth grade are randomized into treatment and control. The 28 schools were selected based on the distribution of the Educational Development Index of those grades in 2013. Finally, all schools offering first to ninth grade in Manaus are randomized into treatment and control. Overall, six strata are created in this randomization process (two municipalities and within the municipalities three types of schools). 
+              \item Notes: Number of schools managed by the municipal governments of Joinville and Manaus (School Census, 2015). Following the guidelines of the Department of Education, 53 schools located in riverside communities in Manaus are not included in the pilot, due to difficulties in accessing some of these areas. In Joinville, all 72 schools are included in the randomization. In Manaus, 36 out of 202 schools offering first to fifth grade are randomized into treatment and control groups. The 36 schools were selected based on the distribution of the Educational Development Index for those grades in 2013. Also, in Manaus, 28 out of 35 schools offering sixth to ninth grade are randomized into treatment and control. The 28 schools were selected based on the distribution of the Educational Development Index of those grades in 2013. Finally, all schools offering first to ninth grade in Manaus are randomized into treatment and control. Overall, six strata are created in this randomization process (two municipalities and within the municipalities three types of schools). 
     \end{tablenotes}
 
 \end{threeparttable}
@@ -319,7 +327,7 @@ This paper investigates whether providing financial education in elementary and 
 \centering
 \begin{threeparttable} 
 \fontsize{9}{11}\selectfont
-\caption{Dependent variables collected in \textit{Prova Brasil}, Education Census and ENEM.}
+\caption{Dependent variables collected in \textit{Prova Brasil}, School Census and ENEM.}
 \begin{tabular}{lllll}
 \hline
 {\bf Survey Data} &     {\bf } & \multicolumn{ 3}{c}{{\bf Administrative Data}} \\
@@ -328,7 +336,7 @@ This paper investigates whether providing financial education in elementary and 
 
 {\bf Pilot } &     {\bf } & {\bf Proficiency in Math and} & {\bf Grade-promotion/dropout} & {\bf ENEM} \\
 
-{\bf  students in 2015} &            & {\bf Portuguese (Prova Brasil) } & {\bf (Education Census)} &     {\bf } \\
+{\bf  students in 2015} &            & {\bf Portuguese (Prova Brasil) } & {\bf (School Census)} &     {\bf } \\
 \hline
 \hline
 \multicolumn{ 1}{l}{3rd graders in 2015 $\rightarrow$} & \multicolumn{ 1}{l}{{\bf }} & Their 5th grade  & If they ever repeated or  &            \\
@@ -360,7 +368,7 @@ This paper investigates whether providing financial education in elementary and 
 \end{tabular}  
 \begin{tablenotes}
 \fontsize{9}{9}\selectfont 
-\item Note: Retention rates, dropout, ENEM scores, and high school completion rates are available annually (Education Census and ENEM disclosed by INEP). 
+\item Note: Retention rates, dropout, ENEM scores, and high school completion rates are available annually (School Census and ENEM disclosed by INEP). 
 Performance in Portuguese and Math is only available every two years for fifth and ninth-graders (\textit{Prova Brasil} disclosed by INEP).
 \end{tablenotes}
 \end{threeparttable}    
@@ -775,7 +783,7 @@ Mother education/Legal guardian: at least high school degree &       1081 &     
 
            &            &     (2.59) &            &     (2.26) &            \\
 
-Student found in Education Census 2015-2018 &       2380 &      87.02 &       2270 &      88.50 &      -1.49 \\
+Student found in School Census 2015-2018 &       2380 &      87.02 &       2270 &      88.50 &      -1.49 \\
 
            &            &     (1.60) &            &     (1.51) &            \\
 
@@ -813,7 +821,7 @@ Mother education/Legal guardian: at least high school degree &       1272 &     
 
            &            &     (1.87) &            &     (2.00) &            \\
 
-Student found in Education Census 2015-2018 &       2375 &      89.94 &       2380 &      90.04 &      -0.11 \\
+Student found in School Census 2015-2018 &       2375 &      89.94 &       2380 &      90.04 &      -0.11 \\
 
            &            &     (1.52) &            &     (1.08) &            \\
 
@@ -833,10 +841,9 @@ Prova Brasil math score in 5th grade 2017 &       1884 &     231.83 &       1942
 
 
 \hline
-\end{tabular}  
+\end{tabular}
  \label{tab:balance_adm1}%
-\multicolumn{6}{@{}p{1\textwidth}}
-{\textit{Notes}:We run the balance test controlling for strata. All the variables shown in the table are from \textit{Prova Brasil}, and Census of Education.  }
+\par\vspace{2pt}\noindent{\fontsize{8}{10}\selectfont\textit{Notes}: We run the balance test controlling for strata. All the variables shown in the table are from \textit{Prova Brasil}, and School Census.\par}
 \end{table}
 
 \newgeometry{left = 2.54cm, right = 2.54cm, top = 1.5cm, bottom =1.5cm}
@@ -878,7 +885,7 @@ Mother education/Legal guardian: at least high school degree &       1347 &     
 
            &            &     (2.01) &            &     (2.05) &            \\
 
-Student found in Education Census 2015-2018 &       2376 &      91.20 &       2321 &      91.12 &       0.08 \\
+Student found in School Census 2015-2018 &       2376 &      91.20 &       2321 &      91.12 &       0.08 \\
 
            &            &     (1.66) &            &     (1.11) &            \\
 
@@ -928,7 +935,7 @@ Mother education/Legal guardian: at least high school degree &       1364 &     
 
            &            &     (1.75) &            &     (1.77) &            \\
 
-Student found in Education Census 2015-2018 &       2222 &      92.26 &       2233 &      92.79 &      -0.53 \\
+Student found in School Census 2015-2018 &       2222 &      92.26 &       2233 &      92.79 &      -0.53 \\
 
            &            &     (0.98) &            &     (0.84) &            \\
 
@@ -972,10 +979,9 @@ Nota padronizada média ENEM-2018 &        793 &       0.13 &        723 &      
 
 \hline
 
-\end{tabular}  
+\end{tabular}
  \label{tab:balance_adm2}%
-\multicolumn{6}{@{}p{1\textwidth}}
-{\textit{Notes} We run the balance test controlling for strata. All the variables shown in the table are from \textit{Prova Brasil}, and Census of Education.  }
+\par\vspace{2pt}\noindent{\fontsize{8}{10}\selectfont\textit{Notes}: We run the balance test controlling for strata. All the variables shown in the table are from \textit{Prova Brasil}, and School Census.\par}
 \end{table}
 
 
@@ -1346,9 +1352,9 @@ effect mediated &            &            &            &            &           
 \caption{Financial Proficiency Score and IDEB}
 \hfill
 \hfill
-\subfigure[Fifth graders]{\includegraphics[width=12cm]{Figures/FigureC1a.pdf}}
+\subfigure[Fifth graders]{\includegraphics[width=12cm]{FigureC1a.pdf}}
 \hfill
-\subfigure[Ninth graders]{\includegraphics[width=12cm]{Figures/FigureC1b.pdf}}
+\subfigure[Ninth graders]{\includegraphics[width=12cm]{FigureC1b.pdf}}
 \hfill
 \label{fig:prof_ideb}
 
