@@ -1,3 +1,8 @@
+# Microdados identificados — nunca versionar. Contêm nome do aluno, chave do aluno e as chaves
+# originais de escola, turma e professor. O DeIdentifying.do lê desta pasta e escreve os dados
+# desidentificados em Data/2. Intermediate, que são os que entram no pacote de reprodutibilidade.
+Datawork/Data/0. DeIdentification/Identified/
+
 # PDFs dos livros didáticos da ENEF — usados como referência, baixados de gmw.investidor.gov.br
 ENEF_livros/*.pdf
 
@@ -14,5 +19,26 @@ Paper/*.fls
 
 # Stata / OS
 *.tmp
+*.log
+*.smcl
 .DS_Store
 Thumbs.db
+
+# Old table versions kept locally only -- not part of the public package
+Datawork/Output/Tables/archive/
+
+# Internal working files -- not part of the public package
+Financial Literacy To do List.xlsx
+Revisao_Paper_Log.md
+Estrategia Finalizar Paper.md
+
+# Basic-education microdata (School Census raw files, ~176MB) -- download from INEP
+Datawork/Data/1. Raw/CensoEscolar_2015/
+
+# Editor and assistant local settings
+.claude/
+.vscode/
+
+# Secure-room extractions and de-identification code -- never public
+Datawork/Data/4. Sala Sigilo INEP/
+Datawork/Data/0. DeIdentification/

@@ -1,0 +1,760 @@
+\documentclass[
+	% -- opções da classe memoir --
+	article,			% indica que é um artigo acadêmico
+	12pt,				% tamanho da fonte
+	oneside,			% para impressão apenas no verso. Oposto a twoside
+	a4paper,			% tamanho do papel. 
+	]{article}
+% ---
+% Pacotes
+% ---
+\usepackage{cmap}				% Mapear caracteres especiais no PDF 
+\usepackage{times}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage[USenglish]{babel}
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 			% Lista de simbolos
+\usepackage{color}				% Controle das cores
+\usepackage{color, colortbl}
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{tabularx}           % in the preamble
+\usepackage{amsmath,amssymb}
+\usepackage{graphics,graphicx} %linalgjh
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{caption,booktabs,array}
+\newcommand{\rowgroup}[1]{\hspace{-1em}#1}
+\usepackage[flushleft]{threeparttable}
+\usepackage{subfigure}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage{comment}
+\usepackage{setspace}
+\usepackage{subfigure}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{chngcntr} %Para recomecar do 1 a numeracao das tabelas dos anexos
+\usepackage{breqn}
+\usepackage{microtype}
+\hyphenpenalty=10000
+\makeatletter% Set distance from top of page to first float
+\setlength{\@fptop}{5pt}
+\makeatother
+\usepackage{float}
+\usepackage{hyperref}
+	
+\definecolor{Gray}{gray}{0.9}
+% *****************************************************************
+% Estout related commands
+% *****************************************************************
+\renewcommand{\arraystretch}{1.1}
+\newcommand{\sym}[1]{\rlap{#1}}
+% \tablefragment: input a Stata-generated table fragment inside a tabular.
+% The LaTeX \input opens a group and breaks at the start of an alignment row;
+% the TeX primitive \@@input is expansion-safe inside tabulars.
+\makeatletter
+\newcommand{\tablefragment}[1]{\@@input #1 }
+\makeatother
+% URL of the shared online appendix (OneDrive). Every mention of the online
+% appendix links here; update the address in this single place.
+\newcommand{\onlineappendixurl}{https://1drv.ms/b/c/cebd68c6d368de60/IQBJiae2SWdVQbojwq6BhokpAaug9HslTrpD9jVRuiNV5b0?e=Kvc6cU}
+\newcommand{\onlineappendix}{\href{\onlineappendixurl}{online appendix}}
+\let\estinput=\input% define a new input command so that we can still flatten the document
+\newcommand{\estwide}[3]{
+  \vspace{0.3cm}{
+    \begin{tabular*}
+      {\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}l*{#2}{#3}}
+      \toprule
+      \addlinespace[0.3cm]
+      \estinput{#1}
+      \bottomrule
+      \addlinespace[0.3cm]
+    \end{tabular*}
+  }
+} 
+\newcommand{\estauto}[3]{
+  \vspace{0.3cm}{
+    \begin{tabular}{l*{#2}{#3}}
+      \toprule
+      \addlinespace[0.3cm]
+      \estinput{#1}
+      \bottomrule
+      \addlinespace[0.3cm]
+    \end{tabular}
+  }
+}
+
+% Allow line breaks with \\ in specialcells
+  \newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+% *****************************************************************
+% Custom subcaptions
+% *****************************************************************
+% Note/Source/Text after Tables
+\newcommand{\figtext}[1]{
+  \captionsetup{justification=justified,font=footnotesize}
+  \caption*{\hspace{0pt}\hangindent=0.0em #1}
+}
+\newcommand{\fignote}[1]{\figtext{\emph{Note:~}~#1}}
+\newcommand{\figsource}[1]{\figtext{\emph{Source:~}~#1}}
+% Add significance note with \starnote
+\newcommand{\starnote}{\figtext{* p < 0.1, ** p < 0.05, *** p < 0.01. Standard errors in parentheses.}}
+
+% *****************************************************************
+% siunitx
+% *****************************************************************
+\sisetup{
+  detect-mode,
+  tight-spacing   = true,
+  group-digits    = integer,
+  input-signs   = ,
+  input-symbols   = ( ) [ ] - + *,
+  input-open-uncertainty  = ,
+  input-close-uncertainty = ,
+  table-align-text-post = false,
+  input-ignore={,},
+  group-separator={,},
+  group-minimum-digits=4,
+  input-decimal-markers={.}
+}
+% Primitive input to solve the problem with \toprule inside inputed tables
+\makeatletter
+\newcommand\primitiveinput[1]
+{\@@input #1 }
+\makeatother
+
+
+\geometry{a4paper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in,footskip=55pt}
+
+% ---
+% Pacotes de citações
+% --- 
+\usepackage[round]{natbib}
+\bibliographystyle{ecta}
+%\usepackage{apacite}
+
+% ---
+% Configurações de aparência do PDF final
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+% informações do PDF
+\makeatletter
+\usepackage{hyperref}
+\hypersetup{
+     	%pagebackref=true,
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=1000
+\hbadness=10000
+% --- 
+
+% ---
+% compila o indice
+% ---
+%\makeindex
+% ---
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{0cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{6pt}
+
+% Espaçamento entre linhas
+\onehalfspacing
+
+\graphicspath{{../Datawork/Output/Figures/}}
+
+\usepackage{titling}
+
+\setlength{\droptitle}{-8em}   % This is your set screw
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+
+\title{Experimental Evaluation of a Financial Education Program in Elementary and Middle School Grades\thanks{\scriptsize Acknowledgements: We would like to thank Cláudia Forte, Alzira Silva, Thiago Nascimento, and Cláudia Donega from the Brazilian Association of Financial Education (AEF-Brasil), José Alexandre Vasco from the Securities and Exchange Commission of Brazil (CVM), and the staff from Municipal Secretariats of Education from Manaus and Joinville. We thank the seminar participants from the Sao Paulo School of Economics at Getulio Vargas Foundation, Insper Institute of Education and Research, the 39th Brazilian Econometrics Society Meeting (SBE), and the 3ie-IFPRI Seminar Series. We also thank Arianna Legovini, Bilal Zia, Miriam Bruhn, Florence Kondylis, and an anonymous referee for their comments and suggestions. Finally, we thank DIME i2i, DEC Research Support Budget, and the Brazil Country Office for funding support. The reproducibility package is available on the GitHub repository \href{https://github.com/vivianamorim/financial-education-brazil/tree/main/Do\%20files}{financial-education-brazil}.}}
+
+\author{Caio Piza\thanks{\scriptsize Development Impact Evaluation Unit (DIME) of the World Bank. Contact: caiopiza@worldbank.org} \and Isabela Furtado\thanks{\scriptsize Insper - Institute of Education and Research. Contact: isabelabf@insper.edu.br} \and Vivian Amorim \thanks{\scriptsize 
+ Contact: vivianamorim5@gmail.com}}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\vspace{-50pt}
+\noindent\textbf{Abstract}
+\vspace{-5pt}
+
+This paper investigates whether providing financial education in elementary and middle school grades improves students' financial proficiency and actual behavior. We use a cluster randomized controlled trial to evaluate a pilot program across 201 Brazilian municipal schools, 101 of which received the intervention in 2015. The findings show positive impacts on financial proficiency (0.07 of a standard deviation), mainly among middle school students, a significant shift in hypothetical attitudes toward saving and consumption, especially among fifth graders, and suggestive evidence of improvements in short-term behavioral outcomes. However, the analysis indicates that the program did not impact students' school achievement up to three years after the intervention, which suggests that its effects were not strong enough to shift students' human capital decisions.
+
+%\noindent Does financial education in elementary and lower secondary school help improve children's intertemporal decision-making process? Evidence on the effectiveness of financial education programs in k-9 public schools in developing countries is scant. We use a randomized controlled trial to test the impacts of a financial education pilot program targeting different elementary and middle school grades. We find positive impacts of the program on financial proficiency and attitudinal and behavioral outcomes. Mediator causal effect analysis suggests that changes in attitudinal and behavioral outcomes are not mechanically mediated by improvements in financial proficiency. Overall, our results indicate that financial education should be made available in the early grades of elementary school.  
+
+\vspace{-5pt}
+
+\noindent\textbf{JEL Codes:} D14, I21, I25, O12, O15
+
+
+\thispagestyle{empty}
+% ---
+\pagestyle{plain}
+
+\setcounter{footnote}{0}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\setcounter{page}{1}
+
+\input{01_intro}
+\newpage
+\input{02_pilot}
+\newpage
+\input{03_data}
+\newpage
+\input{04_empirical}
+\newpage
+\input{05_results}
+\clearpage
+\input{06_conclusion}
+\newpage
+
+
+\bibliography{referencesp1}
+\appendix
+
+\counterwithin{table}{section}
+\section{Tables}
+
+
+
+% ==== Appendix tables, ordered by first citation (auto-reordered) ===
+% Table A.1 -- shell for the fragment written by 2_Descriptives.do (figures from the World Bank's August 2016 report)
+\begin{table}[htbp]
+\centering
+\fontsize{10}{11}\selectfont
+\begin{threeparttable}
+\caption{Sample selected for the pilot study}\label{tab:sample}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc@{}}
+\toprule
+ & \multicolumn{3}{c}{Joinville} & \multicolumn{3}{c}{Manaus} & \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+ & A.1 & A.2 & A.3 & B.1 & B.2 & B.3 & Total \\
+Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA1.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: Each column is one of the six strata, defined by municipality and school type. Row (1) is the sampling frame: 374 municipal schools offering elementary or middle school grades, 72 in Joinville and 302 in Manaus. Relative to the 2015 School Census, which records 369 municipal schools offering elementary and middle school education in Manaus and 83 in Joinville, the frame leaves out 67 schools in Manaus and 11 in Joinville. In Manaus, the majority of the schools out of the sample frame are in riverside communities that are very challenging to access for data collection. In Joinville, the 11 schools left out are all small rural schools. The 72 schools in the Joinville frame entered the study, as did all 65 Manaus schools offering grades 1--9 (stratum B.3). In strata B.1 and B.2, the budget did not allow us to survey every school, so we ranked schools by their 2013 IDEB, a school-level index that combines student performance in reading and mathematics with grade promotion rates, measured in grade 5 for the elementary grades and in grade 9 for the middle school grades, and drew the same number of schools at random from each quartile of that ranking, as shown in row (2). Within each of the six strata, we then randomly assigned roughly half of the schools to treatment and half to control, independently of the IDEB ranking; stratum B.3 holds an odd number of schools, hence 33 treated and 32 control.
+\item \textit{Source}: Sampling frame from the pilot's implementation report, prepared by the World Bank in August 2016; school counts for the comparison with the census from the 2015 School Census (INEP). 
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% TableA2 -- shell for the fragment written by 2_Descriptives.do
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\fontsize{8}{10}\selectfont
+\setlength{\tabcolsep}{3.5pt}
+\caption{Program implementation, 2015}\label{tab:implementation}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{9}{c}@{}}
+\toprule
+ & \multicolumn{3}{c}{Pooled} & \multicolumn{3}{c}{Elementary} & \multicolumn{3}{c}{Middle} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+ & C & T & Diff & C & T & Diff & C & T & Diff \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA2.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{8}{10}\selectfont
+\item \textit{Notes}: C and T are control and treatment means and Diff is the difference between them. Significance is from a regression of the indicator on treatment status and the strata dummies, with standard errors clustered at the school level: *** \(p<0.01\), ** \(p<0.05\), * \(p<0.1\). In Panel A, the unit of observation is the student in grades 5, 7, or 9, for which the data are available: Elementary is grade 5 and Middle is grades 7 and 9. In Panel B, the unit of observation is the teacher in charge of a pilot class: Elementary covers grades 3 and 5, and Middle grades 7 and 9.
+\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students and teachers at the end of the 2015 school year.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+\begin{threeparttable}
+  \fontsize{8}{11}\selectfont
+  \caption{Descriptors and skills on the financial knowledge test}\label{tab:descriptors}
+    \begin{tabular}{lp{30.93em}cccc}
+    \toprule
+ & \multicolumn{1}{r}{} & Third grade & Fifth grade    & Seventh grade  & Ninth grade  \\
+    \midrule
+    D01   & Being able to identify the subject of texts whose topic explores socially responsible attitudes towards the environment  & yes   & yes   & yes   & yes \\
+    D02   & Being able to find information in texts about consumption – light, water, telephone bills, among others  & yes   & yes   & no    & no \\
+    D03   & Being able to identify the purpose of texts and text formats that include expenses, consumption, spending  & yes   & yes   & no    & no \\
+    D04   & Being able to recognize the purpose of text genres related to finances – receipts, checks, invoices & no    & yes   & yes   & yes \\
+    D05   & Being able to recognize situations in which concepts related to finances are present: savings, expenses, consumption, spending, waste, risk, return, financial planning, and investment, among others.  & no    & no    & yes   & yes \\
+    D06   & Being able to identify situations related to financially responsible attitudes  & no    & yes   & yes   & yes \\
+    D07   & Being able to find information in graphs and tables that contain data related to finances (purchases, sales, spending) & yes   & no    & no    & no \\
+    D08   & Being able to find information in texts that circulate in the financial world: classified ads, news features, among others & yes   & yes   & yes   & yes \\
+    D09   & Being able to estimate values and/or procedures necessary for financial projects & yes   & yes   & yes   & yes \\
+    D10   & Being able to distinguish remunerated from non-remunerated work. & yes   & yes   & no    & no \\
+    D11   & Being able to identify the origin and destination of varied products and/or those that can be recycled. & yes   & no    & no    & no \\
+    D12   & Being able to recognize socially responsible situations related to public and private spaces. & no    & no    & no    & yes \\
+    D13   & Being able to identify advantages, disadvantages, and risks of cash and credit sales. & no    & yes   & no    & yes \\
+    D14   & Being able to find implicit information in media texts that are relevant for decision-making in finances.  & no    & yes   & yes   & yes \\
+    \bottomrule
+    \end{tabular}%
+\begin{tablenotes}
+\fontsize{8}{9}\selectfont
+\item \textit{Notes}: Each row is a skill descriptor assessed by the financial literacy test; ``yes'' indicates the descriptor is assessed in that grade. The test content is adapted to each grade, so not every descriptor appears in every grade.
+\item \textit{Source}: Authors' elaboration based on the financial literacy test applied by CAEd at the end of the 2015 school year.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}%
+
+\begin{table}[h!]
+  \centering
+  \fontsize{8}{10} \selectfont
+\begin{threeparttable}
+  \caption{Items used to construct the consumption and savings attitude indices}\label{tab:cs_index}%
+     \setlength{\tabcolsep}{4pt}%
+     \begin{tabular}{p{7.4cm}ccccc}
+    \textbf{Statement} & \multicolumn{4}{c}{\textbf{Answers' scale}} & \textbf{Weight} \\
+    \midrule
+          & Totally agree & Agree & Disagree & Totally disagree &  \\
+\tablefragment{../Datawork/Output/Tables/TableA4.tex}
+    \bottomrule
+    \end{tabular}%
+\begin{tablenotes}
+\fontsize{8}{9}\selectfont
+\item \textit{Notes}: The table lists every item used to build the two indices --- seven for consumption and eight for savings --- and not a selection of them. Each item was printed in the questionnaire as a statement, and students chose the option they most agreed with on a four-point scale. The figures under \textit{Answers' scale} show how each option was coded: because the statements are worded in both directions, the coding is reversed for the positively worded items so that 4 always corresponds to the most prudent response.
+
+\item Each index is the first principal component of the items in its block, standardized to mean zero and unit variance. \textit{Weight} reports the loading the principal component places on each item; the loadings are estimated from the correlation between items across students and are normalized so that their squares sum to one within each block. The first component accounts for 36.6\% of the variation across the consumption items and 34.5\% across the savings items.
+
+\item The attitudes questionnaire was administered only in grades 5, 7, and 9; the statements were not part of the third-grade questionnaire, so neither index is available for that grade. Of the 11,020 students in grades 5, 7, and 9 who took the financial literacy test, 10,823 (98\%) also completed the attitudes questionnaire. Each index requires the full block of items: the consumption index is computed for the 10,220 students who answered all seven consumption statements, and the savings index for the 10,022 who answered all eight savings statements. A student who skipped any statement in a block, or who did not complete the questionnaire, has no index for that block.
+\item \textit{Source}: Authors' elaboration based on the pilot student questionnaire applied by CAEd at the end of the 2015 school year.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}%
+
+\newgeometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
+% TableA5 -- shell for the fragment written by 2_Descriptives.do
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\fontsize{7}{8}\selectfont
+\setlength{\tabcolsep}{2.5pt}
+\caption{Balance test for students}\label{tab:studentscar}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{3.1cm}l*{12}{c}@{}}
+\toprule
+ & & \multicolumn{3}{c}{Third grade} & \multicolumn{3}{c}{Fifth grade} & \multicolumn{3}{c}{Seventh grade} & \multicolumn{3}{c}{Ninth grade} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}
+ & & C & T & Diff & C & T & Diff & C & T & Diff & C & T & Diff \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA5.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{7}{8}\selectfont
+\item \textit{Notes}: C = control, T = treatment; Diff is the difference between the two group means. Means and differences are in percentage points, with the standard error of each mean in parentheses. Balance is computed one variable at a time with \texttt{iebaltab}, taking the randomization strata as covariates and clustering standard errors at the school level; stars are from that test: *** \(p<0.01\), ** \(p<0.05\), * \(p<0.1\). The first two rows report participation in the financial literacy assessment and, among participants, the response rate to the socioeconomic questionnaire, answered by the legal guardians in the third grade.
+\item \textit{Source}: Authors' estimates based on the pilot socioeconomic questionnaire applied by CAEd at the end of the 2015 school year.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\restoregeometry
+
+\newgeometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
+% TableA6 -- shell for the fragment written by 2_Descriptives.do
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\fontsize{7}{8}\selectfont
+\setlength{\tabcolsep}{2.5pt}
+\caption{Balance test for teachers}\label{tab:teacherscar}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{3.1cm}l*{12}{c}@{}}
+\toprule
+ & & \multicolumn{3}{c}{Third grade} & \multicolumn{3}{c}{Fifth grade} & \multicolumn{3}{c}{Seventh grade} & \multicolumn{3}{c}{Ninth grade} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}
+ & & C & T & Diff & C & T & Diff & C & T & Diff & C & T & Diff \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA6.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{7}{8}\selectfont
+\item \textit{Notes}: C = control, T = treatment; Diff is the difference between the two group means. Means and differences are in percentage points, with the standard error of each mean in parentheses. Balance is computed one variable at a time with \texttt{iebaltab}, taking the randomization strata as covariates and clustering standard errors at the school level; stars are from that test: *** \(p<0.01\), ** \(p<0.05\), * \(p<0.1\).
+\item \textit{Source}: Authors' estimates based on the pilot teacher questionnaire applied by CAEd at the end of the 2015 school year.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\restoregeometry
+
+\newgeometry{left=2cm, right=2cm, top=1cm, bottom=1cm}
+% TableA7 -- shell for the fragment written by 2_Descriptives.do
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\fontsize{8}{8}\selectfont
+\caption{Pre-treatment balance test with administrative data at school level}\label{tab:pret_balancing}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{20em}ccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{(1) Control} & \multicolumn{2}{c}{(2) Treatment} & T-Test \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & N & Mean/SE & N & Mean/SE & Difference (1)-(2) \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA7.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: Columns (1) and (2) report the control and treatment group means, with the standard error of each mean in parentheses; N is the number of schools. The difference column reports the control-minus-treatment difference between the two group means. Significance is from a regression of the covariate on treatment status and the six strata dummies, with standard errors clustered at the randomization-group level: *** \(p<0.01\), ** \(p<0.05\), * \(p<0.1\). Covariates are drawn from public administrative records (School Census, \textit{Prova Brasil}, and IDEB) for the years shown.
+\item \textit{Source}: Authors' estimates based on public school-level administrative records from INEP (School Census, \textit{Prova Brasil}, and IDEB).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\restoregeometry
+
+\newgeometry{left=2cm, right=2cm, top=1.2cm, bottom=1.2cm}
+\begin{table}[h!]
+  \centering
+  \begin{threeparttable}
+  \fontsize{9}{10}\selectfont
+  \caption{Pre-treatment balance test for third and fifth graders}\label{tab:balance_adm1}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+           & \multicolumn{ 2}{c}{(1)} & \multicolumn{ 2}{c}{(2)} &     T-Test \\
+
+           & \multicolumn{ 2}{c}{Control} & \multicolumn{ 2}{c}{Treament} & Difference \\
+
+           &          N &    Mean/SE &          N &    Mean/SE &    (1)-(2) \\
+\midrule
+{\it {\bf Third grade}} &            &            &            &            &            \\
+
+Beneficiary of Bolsa Família &       1082 &      36.23 &       1059 &      36.07 &       0.16 \\
+
+           &            &     (3.10) &            &     (2.92) &            \\
+
+Adequate age for their grade &       1038 &      86.99 &        997 &      85.66 &       1.34 \\
+
+           &            &     (1.49) &            &     (1.76) &            \\
+
+Gender: male &       2071 &      53.84 &       2009 &      51.57 &       2.27 \\
+
+           &            &     (0.92) &            &     (1.22) &            \\
+
+Color: white &       1624 &      38.92 &       1582 &      36.47 &       2.44 \\
+
+           &            &     (3.80) &            &     (3.94) &            \\
+
+Mother education/Legal guardian: at least high school degree &       1081 &      53.01 &       1050 &      50.95 &       2.05 \\
+
+           &            &     (2.59) &            &     (2.26) &            \\
+
+Student found in School Census 2015-2018 &       2380 &      87.02 &       2270 &      88.50 &      -1.49 \\
+
+           &            &     (1.60) &            &     (1.51) &            \\
+
+Student found in Prova Brasil 2017 &       2380 &      59.03 &       2270 &      59.16 &      -0.13 \\
+
+           &            &     (1.84) &            &     (1.89) &            \\
+
+Prova Brasil reading score in 5th grade 2017 &       1405 &     232.76 &       1343 &     230.43 &       2.33 \\
+
+           &            &     (2.51) &            &     (2.45) &            \\
+
+Prova Brasil math score in 5th grade 2017 &       1405 &     243.09 &       1343 &     238.55 &       4.54 \\
+
+           &            &     (2.92) &            &     (3.09) &            \\
+
+{\it {\bf Fifth grade}} &            &            &            &            &            \\
+
+Beneficiary of Bolsa Família &       1905 &      45.35 &       1958 &      44.94 &       0.41 \\
+
+           &            &     (2.80) &            &     (2.65) &            \\
+
+Adequate age for their grade &       1902 &      78.39 &       1952 &      77.61 &       0.78 \\
+
+           &            &     (1.71) &            &     (1.58) &            \\
+
+Gender: male &       2302 &      51.87 &       2307 &      50.59 &       1.28 \\
+
+           &            &     (1.12) &            &     (1.10) &            \\
+
+Color: white &       1888 &      40.57 &       1945 &      37.33 &       3.25 \\
+
+           &            &     (2.52) &            &     (2.48) &            \\
+
+Mother education/Legal guardian: at least high school degree &       1272 &      55.66 &       1333 &      56.04 &      -0.38 \\
+
+           &            &     (1.87) &            &     (2.00) &            \\
+
+Student found in School Census 2015-2018 &       2375 &      89.94 &       2380 &      90.04 &      -0.11 \\
+
+           &            &     (1.52) &            &     (1.08) &            \\
+
+Student found in Prova Brasil 2015 &       2375 &      79.33 &       2380 &      81.60 &      -2.27 \\
+
+           &            &     (2.22) &            &     (1.77) &            \\
+
+Prova Brasil reading score in 5th grade 2017 &       1884 &     220.58 &       1942 &     218.95 &       1.62 \\
+
+           &            &     (2.92) &            &     (2.68) &            \\
+
+Prova Brasil math score in 5th grade 2017 &       1884 &     231.83 &       1942 &     229.17 &       2.66 \\
+
+           &            &     (3.82) &            &     (3.33) &            \\
+
+           &            &            &            &            &            \\
+
+
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: We run the balance test controlling for strata. All variables are from \textit{Prova Brasil} and the School Census. *** $p<0.01$, ** $p<0.05$, * $p<0.1$.
+\item \textit{Source}: Authors' estimates based on the pilot roster merged with INEP's identified student-level administrative records (\textit{Prova Brasil} and School Census); INEP performed the merge and the authors ran all balance tests inside INEP's secure facility.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\restoregeometry
+
+\newgeometry{left=2cm, right=2cm, top=1.2cm, bottom=1.2cm}
+\begin{table}[h!]
+  \centering
+  \begin{threeparttable}
+  \fontsize{9}{10}\selectfont
+  \caption{Pre-treatment balance test for seventh and ninth graders}\label{tab:balance_adm2}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+           & \multicolumn{ 2}{c}{(1)} & \multicolumn{ 2}{c}{(2)} &     T-Test \\
+
+           & \multicolumn{ 2}{c}{Control} & \multicolumn{ 2}{c}{Treament} & Difference \\
+
+           &          N &    Mean/SE &          N &    Mean/SE &    (1)-(2) \\
+\midrule
+{\it {\bf Seventh grade}} &            &            &            &            &            \\
+
+Beneficiary of Bolsa Família &       1790 &      40.95 &       1788 &      42.90 &      -1.95 \\
+
+           &            &     (2.92) &            &     (2.87) &            \\
+
+Adequate age for their grade &       1781 &      77.20 &       1781 &      76.81 &       0.39 \\
+
+           &            &     (2.18) &            &     (1.85) &            \\
+
+Gender: male &       1798 &      48.00 &       1799 &      48.08 &      -0.08 \\
+
+           &            &     (1.45) &            &     (1.04) &            \\
+
+Color: white &       2226 &      31.63 &       2186 &      32.20 &      -0.58 \\
+
+           &            &     (4.09) &            &     (3.89) &            \\
+
+Mother education/Legal guardian: at least high school degree &       1347 &      52.64 &       1317 &      54.75 &      -2.11 \\
+
+           &            &     (2.01) &            &     (2.05) &            \\
+
+Student found in School Census 2015-2018 &       2376 &      91.20 &       2321 &      91.12 &       0.08 \\
+
+           &            &     (1.66) &            &     (1.11) &            \\
+
+Student found in Prova Brasil 2013 &       2376 &      67.05 &       2321 &      66.52 &       0.52 \\
+
+           &            &     (2.25) &            &     (1.91) &            \\
+
+Prova Brasil reading score in 5th grade 2013 &       1593 &     211.03 &       1544 &     209.28 &       1.75 \\
+
+           &            &     (3.16) &            &     (2.68) &            \\
+
+Prova Brasil math score in 5th grade 2013 &       1593 &     226.11 &       1544 &     224.70 &       1.41 \\
+
+           &            &     (4.10) &            &     (3.66) &            \\
+
+Student found in Prova Brasil 2017 &       2376 &      62.50 &       2321 &      61.83 &       0.67 \\
+
+           &            &     (2.04) &            &     (1.88) &            \\
+
+Prova Brasil reading score in 9th grade 2017 &       1485 &     273.81 &       1435 &     274.74 &      -0.93 \\
+
+           &            &     (2.58) &            &     (2.31) &            \\
+
+Prova Brasil math score in 9th grade 2017 &       1485 &     269.66 &       1435 &     271.07 &      -1.42 \\
+
+           &            &     (3.48) &            &     (3.01) &            \\
+
+{\it {\bf Ninth grade}} &            &            &            &            &            \\
+
+Beneficiary of Bolsa Família &       1648 &      38.35 &       1604 &      35.79 &      2.56* \\
+
+           &            &     (3.07) &            &     (2.59) &            \\
+
+Adequate age for their grade &       1636 &      76.96 &       1602 &      76.09 &       0.86 \\
+
+           &            &     (1.80) &            &     (2.30) &            \\
+
+Gender: male &       2161 &      49.56 &       2174 &      47.10 &      2.46* \\
+
+           &            &     (1.05) &            &     (1.08) &            \\
+
+Color: white &       2074 &      32.64 &       2087 &      30.09 &       2.55 \\
+
+           &            &     (4.22) &            &     (3.95) &            \\
+
+Mother education/Legal guardian: at least high school degree &       1364 &      57.26 &       1335 &      57.00 &       0.25 \\
+
+           &            &     (1.75) &            &     (1.77) &            \\
+
+Student found in School Census 2015-2018 &       2222 &      92.26 &       2233 &      92.79 &      -0.53 \\
+
+           &            &     (0.98) &            &     (0.84) &            \\
+
+Student found in Prova Brasil 2011 &       2222 &      63.77 &       2233 &      64.22 &      -0.45 \\
+
+           &       (72) &     (2.24) &       (72) &     (2.06) &            \\
+
+Prova Brasil reading score in 5th grade 2011 &       1417 &     206.10 &       1434 &     200.39 &     5.71** \\
+
+           &       (71) &     (3.07) &       (72) &     (2.78) &            \\
+
+Prova Brasil math score in 5th grade 2011 &       1417 &     221.42 &       1434 &     215.72 &       5.69 \\
+
+           &       (71) &     (3.80) &       (72) &     (3.59) &            \\
+
+Student found in Prova Brasil 2015 &       2222 &      82.36 &       2233 &      81.10 &       1.26 \\
+
+           &       (72) &     (1.31) &       (72) &     (1.45) &            \\
+
+Prova Brasil reading score in 9th grade 2015 &       1830 &     265.01 &       1811 &     264.14 &       0.87 \\
+
+           &       (70) &     (2.27) &       (70) &     (1.92) &            \\
+
+Prova Brasil math score in 9th grade 2015 &       1830 &     264.88 &       1811 &     260.73 &      4.15* \\
+
+           &       (70) &     (2.73) &       (70) &     (2.74) &            \\
+
+Graduated from high school &       2222 &      59.63 &       2233 &      56.02 &       3.61 \\
+
+           &       (72) &     (1.58) &       (72) &     (1.91) &            \\
+
+Participated in ENEM, 2018 &       2222 &      46.17 &       2233 &      43.62 &       2.56 \\
+
+           &       (72) &     (1.54) &       (72) &     (1.83) &            \\
+
+Standardized ENEM score, 2018 &        793 &       0.13 &        723 &       0.12 &       0.01 \\
+
+           &       (71) &     (0.04) &       (71) &     (0.05) &            \\
+
+           &            &            &            &            &            \\
+
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: We run the balance test controlling for strata. All variables are from \textit{Prova Brasil} and the School Census. *** $p<0.01$, ** $p<0.05$, * $p<0.1$.
+\item \textit{Source}: Authors' estimates based on the pilot roster merged with INEP's identified student-level administrative records (\textit{Prova Brasil} and School Census); INEP performed the merge and the authors ran all balance tests inside INEP's secure facility.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\restoregeometry
+
+\begin{landscape}
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\fontsize{7}{9}\selectfont
+\caption{Average causal mediation effects (mediator: financial proficiency)}\label{tab:acme}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{7}{cc}@{}}
+\toprule
+  & \multicolumn{2}{c}{Consumption} & \multicolumn{2}{c}{Saving} & \multicolumn{2}{c}{Talks with parents} & \multicolumn{2}{c}{Talks with friends} & \multicolumn{2}{c}{Piggy bank use} & \multicolumn{2}{c}{Use of financial services} & \multicolumn{2}{c}{Receiving an allowance} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}\cmidrule(lr){14-15}
+  & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA10.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{7}{8}\selectfont
+\item \textit{Notes}: Each dependent variable equals 1 if the student talks to their parents or friends about financial subjects, keeps a piggy bank, has access to financial services, or receives an allowance, and 0 otherwise; consumption and savings are the standardized attitude indices. The mediator is the financial-proficiency index. \textit{Total effect} is the total treatment effect ($\tau$), \textit{ADE} the average direct effect, \textit{ACME} the average causal mediation effect operating through financial proficiency, and \textit{\% mediated} the share of the total effect that runs through the mediator. Estimated with the \texttt{medeff} command; 95\% confidence intervals in brackets from 1{,}000 simulations. Controls: strata, school infrastructure, and syllabus complexity. The sample is restricted to fifth-, seventh-, and ninth-grade students: third graders, who answered only the piggy-bank and financial-services items, are excluded so that all outcomes cover the same grades.
+\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students at the end of the 2015 school year, merged with school-level administrative records.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{landscape}
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\fontsize{9}{10}\selectfont
+\caption{ITT estimates controlling for pre-pilot performance}\label{tab:add_5prof_control}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+ & \multicolumn{2}{c}{Seventh grade} & \multicolumn{2}{c}{Ninth grade} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & (1) & (2) & (3) & (4) \\
+ & Strata FE & \shortstack{Strata FE +\\ pre-pilot performance} & Strata FE & \shortstack{Strata FE +\\ pre-pilot performance} \\
+\midrule
+\textbf{Financial proficiency} &  &  &  &  \\
+Treatment   &     0.090* &    0.098** &     0.107* &   0.149*** \\
+            &    (0.048) &    (0.042) &    (0.056) &    (0.055) \\
+RI pvalue   &      0.061 &      0.022 &      0.057 &      0.008 \\
+N. obs      &       3640 &       2538 &       3374 &       2251 \\
+R-squared   &      0.208 &      0.505 &      0.168 &      0.399 \\
+\midrule
+\textbf{Consumption index} &  &  &  &  \\
+Treatment   &     0.080* &     0.070* &    0.084** &     0.087* \\
+            &    (0.041) &    (0.042) &    (0.037) &    (0.044) \\
+RI pvalue   &      0.054 &      0.098 &      0.025 &      0.050 \\
+N. obs      &       3409 &       2384 &       3163 &       2115 \\
+R-squared   &      0.100 &      0.187 &      0.055 &      0.128 \\
+\midrule
+\textbf{Saving index} &  &  &  &  \\
+Treatment   &      0.066 &      0.033 &      0.018 &      0.030 \\
+            &    (0.040) &    (0.044) &    (0.038) &    (0.045) \\
+RI pvalue   &      0.102 &      0.456 &      0.644 &      0.508 \\
+N. obs      &       3368 &       2351 &       3105 &       2080 \\
+R-squared   &      0.032 &      0.065 &      0.019 &      0.044 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: Clustered standard errors at the school level in parentheses; RI denotes randomization inference. *** $p<0.01$, ** $p<0.05$, * $p<0.1$. Columns (2) and (4) add the student's fifth-grade \textit{Prova Brasil} reading and math scores, taken in 2013 for the seventh-grade cohort and in 2011 for the ninth-grade cohort, as controls; the smaller sample in these columns reflects the students the merge with INEP's records located in those waves. Financial proficiency is computed by CAEd from students' answers to a standardized test scored with Item Response Theory. The consumption and savings indices summarize students' answers to fifteen agreement-scale statements, reported with their weights in \autoref{tab:cs_index}. All three indices are normalized to standard-deviation units, so treatment effects are read in standard deviations.
+\item \textit{Source}: Authors' estimates based on the pilot roster merged with INEP's identified student-level administrative records (School Census and \textit{Prova Brasil}). INEP performed the merge; the authors ran all estimates inside INEP's secure facility.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\newgeometry{left = 2.54cm, right = 2.54cm, top = 2.5cm, bottom = 2.5cm}
+
+
+
+\counterwithin{figure}{section}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+%One way to read the figures is to by setting the ACME at zero. For the consumption and savings index, the sensitive parameter associated with ACME = 0 is around 0.5. This means that there should be an omitted bias accounting for 0.7 of the remaining variance in both the mediator and outcome equations (0.7 x 0.7 $\approx$ 0.5) which seems implausible. Very similar parameters are found when we split the analysis by school grades. However, the parameter is close to zero for the behavioral outcomes suggesting that the estimated results are very sensitive to omitted confounders. The ADE and ACME estimates should then be interpreted with caution given that the strong ignorability assumption may not hold in most estimates.  
