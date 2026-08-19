@@ -321,37 +321,61 @@
     *ITT  = reduced-form effect of random assignment (d), from reg.
     *LATE = effect of actual exposure, instrumented by assignment, from ivregress 2sls (treated = d).
     *esttab writes the table; rename(treated d) aligns the LATE coefficient onto the ITT "Treatment" row.
-    *The randomization-inference p-value is computed once on the reduced form and shared by ITT and LATE.
+    *Inference: RW only, each column within the 27-regression family. No RI here (see the note in the loop).
     *____________________________________________________________________________________________________________________________________*
     **
     {
-        local REPS = 1000
         use "$dtfinal/Fin_Lit_pooled_data_clean.dta", clear
 
         *-------------------------------------------------------------------------------------------------------------->
-        *Romano-Wolf adjusted p-values -- ALL 9 reduced-form hypotheses (3 outcomes x 3 subsamples) as ONE family,
-        *computed on the reduced form and shared by the ITT and LATE columns (like the RI p-value). Clones give
-        *distinct depvar names (see the note in Section 2). Saved as scalar rw_<outcome>_<subsample>
+        *Romano-Wolf adjusted p-values -- ALL 27 regressions of the table (3 outcomes x 3 subsamples x 3 estimators:
+        *the reduced form and the two IV columns) as ONE family, so every column carries its own adjusted p-value.
+        *Clones give distinct depvar names (see the note in Section 2); the ITT and IV p-values of the same cell do
+        *not collide because rwolf2 keys them by indepvar (d, treated, treated2).
+        *Saved as scalars rw_<outcome>_<subsample> (ITT), rw1_... (conservative LATE) and rw2_... (broad LATE)
         foreach v in sm pca_consump_sm pca_save_sm {
             gen double `v'_G1 = `v'
             gen double `v'_G2 = `v' if serie<7
             gen double `v'_G3 = `v' if serie>5
         }
 
-        rwolf2 (reg sm_G1             d $estrato, cluster(cd_escola)) ///
-               (reg pca_consump_sm_G1 d $estrato, cluster(cd_escola)) ///
-               (reg pca_save_sm_G1    d $estrato, cluster(cd_escola)) ///
-               (reg sm_G2             d $estrato, cluster(cd_escola)) ///
-               (reg pca_consump_sm_G2 d $estrato, cluster(cd_escola)) ///
-               (reg pca_save_sm_G2    d $estrato, cluster(cd_escola)) ///
-               (reg sm_G3             d $estrato, cluster(cd_escola)) ///
-               (reg pca_consump_sm_G3 d $estrato, cluster(cd_escola)) ///
-               (reg pca_save_sm_G3    d $estrato, cluster(cd_escola)) ///
-             , indepvars(d, d, d, d, d, d, d, d, d) cluster(cd_escola) strata(estrato) reps(1000) seed(20150101) nodots
+        rwolf2 (reg sm_G1             d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls sm_G1             $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls sm_G1             $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg pca_consump_sm_G1 d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls pca_consump_sm_G1 $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls pca_consump_sm_G1 $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg pca_save_sm_G1    d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls pca_save_sm_G1    $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls pca_save_sm_G1    $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg sm_G2             d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls sm_G2             $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls sm_G2             $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg pca_consump_sm_G2 d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls pca_consump_sm_G2 $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls pca_consump_sm_G2 $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg pca_save_sm_G2    d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls pca_save_sm_G2    $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls pca_save_sm_G2    $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg sm_G3             d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls sm_G3             $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls sm_G3             $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg pca_consump_sm_G3 d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls pca_consump_sm_G3 $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls pca_consump_sm_G3 $estrato (treated2 = d), vce(cluster cd_escola)) ///
+               (reg pca_save_sm_G3    d $estrato, cluster(cd_escola))                          ///
+               (ivregress 2sls pca_save_sm_G3    $estrato (treated  = d), vce(cluster cd_escola)) ///
+               (ivregress 2sls pca_save_sm_G3    $estrato (treated2 = d), vce(cluster cd_escola)) ///
+             , indepvars(d, treated, treated2, d, treated, treated2, d, treated, treated2,     ///
+                         d, treated, treated2, d, treated, treated2, d, treated, treated2,     ///
+                         d, treated, treated2, d, treated, treated2, d, treated, treated2)     ///
+               cluster(cd_escola) strata(estrato) reps(1000) seed(20150101) nodots
 
         forvalues g = 1/3 {
             foreach v in sm pca_consump_sm pca_save_sm {
-                scalar rw_`v'_`g' = e(rw_`v'_G`g'_d)
+                scalar rw_`v'_`g'  = e(rw_`v'_G`g'_d)
+                scalar rw1_`v'_`g' = e(rw_`v'_G`g'_treated)
+                scalar rw2_`v'_`g' = e(rw_`v'_G`g'_treated2)
             }
         }
         drop sm_G* pca_consump_sm_G* pca_save_sm_G*
@@ -374,8 +398,10 @@
             local models ""
             local m = 0
 
-            *Both LATEs share the reduced form of their subsample, so the RI and RW p-values are computed once per
-            *subsample on the ITT and carried over to the two IV columns
+            *Every column carries its own RW p-value, from its regression within the 27-strong family. No RI in
+            *this table: permuting the assignment destroys the first stage, so the permuted IV coefficient
+            *explodes and its RI p-value is meaningless (~0.9 everywhere); the reduced-form RI already lives in
+            *Table 3
             forvalues g = 1/3 {
                 local cond ""
                 if `g' == 2 local cond "if serie<7"
@@ -385,10 +411,6 @@
                 *ITT: reduced form
                 local ++m
                 eststo test`m': reg `var' d $estrato `cond', cluster(cd_escola)
-                ritest d _b[d], reps(`REPS') cluster(cd_escola) strata(estrato) nodots: ///
-                    reg `var' d $estrato `cond', cluster(cd_escola)
-                add, results(`m')
-                scalar rip = el(r(p),1,1)                                        //RI p-value, shared by the three columns
 
                 matrix define   pwolf_m = J(1,1,0)
                 matrix colnames pwolf_m = "d"
@@ -398,17 +420,18 @@
                 local models "`models' test`m'"
 
                 *------------------->
-                *LATE: conservative exposure, then broad exposure
+                *LATE: conservative exposure (rw1), then broad exposure (rw2)
+                local k = 0
                 foreach z in treated treated2 {
                     local ++m
+                    local ++k
                     eststo test`m': ivregress 2sls `var' $estrato (`z' = d) `cond', vce(cluster cd_escola)
 
                     matrix define   pwolf_m = J(1,1,0)
                     matrix colnames pwolf_m = "`z'"
-                    matrix pwolf_m[1,1]     = rw_`var'_`g'
-                    estadd matrix pwolfmat  = pwolf_m      : test`m'
-                    estadd scalar pwolf     = rw_`var'_`g' : test`m'
-                    estadd scalar pvalue    = rip          : test`m'
+                    matrix pwolf_m[1,1]     = rw`k'_`var'_`g'
+                    estadd matrix pwolfmat  = pwolf_m       : test`m'
+                    estadd scalar pwolf     = rw`k'_`var'_`g' : test`m'
                     local models "`models' test`m'"
                 }
             }
@@ -416,7 +439,7 @@
             esttab `models' using "$textables/Table5.tex", `mode' ///
                 rename(treated d treated2 d) keep(d) coeflabels(d "Treatment") ///
                 cells(b(star pvalue(pwolfmat) fmt(%9.3f)) se(par fmt(%9.3f))) ///
-                stats(pwolf pvalue N r2, fmt(%9.3f %9.3f %9.0f %9.3f) labels("pvalue RW" "pvalue RI" "N. obs" "R-squared")) ///
+                stats(pwolf N r2, fmt(%9.3f %9.0f %9.3f) labels("pvalue RW" "N. obs" "R-squared")) ///
                 starlevels(* 0.10 ** 0.05 *** 0.01) fragment nolines nonumbers nomtitles collabels(none) ///
                 prehead("`sep'") refcat(d "\textbf{`pname'}", nolabel)
             local mode append
