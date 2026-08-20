@@ -41,6 +41,8 @@
 \usepackage{chngcntr} %Para recomecar do 1 a numeracao das tabelas dos anexos
 \usepackage{breqn}
 \usepackage{microtype}
+\usepackage{tikz}				% Sampling flow chart (Section 2)
+\usetikzlibrary{positioning, fit, arrows.meta}
 \hyphenpenalty=10000
 \makeatletter% Set distance from top of page to first float
 \setlength{\@fptop}{5pt}
@@ -190,7 +192,7 @@
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
 
-\title{Experimental Evaluation of a Financial Education Program in Elementary and Middle School Grades\thanks{\scriptsize Acknowledgements: We would like to thank Cláudia Forte, Alzira Silva, Thiago Nascimento, and Cláudia Donega from the Brazilian Association of Financial Education (AEF-Brasil), José Alexandre Vasco from the Securities and Exchange Commission of Brazil (CVM), and the staff from Municipal Secretariats of Education from Manaus and Joinville. We thank the seminar participants from the Sao Paulo School of Economics at Getulio Vargas Foundation, Insper Institute of Education and Research, the 39th Brazilian Econometrics Society Meeting (SBE), and the 3ie-IFPRI Seminar Series. We also thank Arianna Legovini, Bilal Zia, Miriam Bruhn, Florence Kondylis, and an anonymous referee for their comments and suggestions. Finally, we thank DIME i2i, DEC Research Support Budget, and the Brazil Country Office for funding support. The reproducibility package is available on the GitHub repository \href{https://github.com/vivianamorim/financial-education-brazil/tree/main/Datawork/Do\%20files}{financial-education-brazil}.}}
+\title{Experimental Evaluation of a Financial Education Program in Elementary and Middle School Grades\thanks{\scriptsize Acknowledgements: We would like to thank Cláudia Forte, Alzira Silva, Thiago Nascimento, and Cláudia Donega from the Brazilian Association of Financial Education (AEF-Brasil), José Alexandre Vasco from the Securities and Exchange Commission of Brazil (CVM), and the staff from Municipal Secretariats of Education from Manaus and Joinville. We thank the seminar participants from the Sao Paulo School of Economics at Getulio Vargas Foundation, Insper Institute of Education and Research, the 39th Brazilian Econometrics Society Meeting (SBE), and the 3ie-IFPRI Seminar Series. We also thank Arianna Legovini, Bilal Zia, Miriam Bruhn, Florence Kondylis, and an anonymous referee for their comments and suggestions. Finally, we thank DIME i2i, DEC Research Support Budget, and the Brazil Country Office for funding support. The reproducibility package is available on the GitHub repository \href{https://github.com/vivianamorim/financial-education-brazil/tree/main/Datawork/Do\%20files}{financial-education-brazil}. The authors made extensive use of generative artificial intelligence tools (Anthropic's Claude) in preparing this paper, including assistance with the analysis code, tables, figures, and editing of the text. All AI-assisted output was carefully reviewed and verified by the authors, who take full responsibility for the content of the paper.}}
 
 \author{Caio Piza\thanks{\scriptsize Development Impact Evaluation Unit (DIME) of the World Bank. Contact: caiopiza@worldbank.org} \and Isabela Furtado\thanks{\scriptsize Insper - Institute of Education and Research. Contact: isabelabf@insper.edu.br} \and Vivian Amorim \thanks{\scriptsize 
  Contact: vivianamorim5@gmail.com}}
@@ -245,31 +247,10 @@ This paper investigates whether providing financial education in elementary and 
 
 
 % ==== Appendix tables, ordered by first citation (auto-reordered) ===
-% Table A.1 -- shell for the fragment written by 2_Descriptives.do (figures from the World Bank's August 2016 report)
-\begin{table}[htbp]
-\centering
-\fontsize{10}{11}\selectfont
-\begin{threeparttable}
-\caption{Sample selected for the pilot study}\label{tab:sample}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc@{}}
-\toprule
- & \multicolumn{3}{c}{Joinville} & \multicolumn{3}{c}{Manaus} & \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-7}
- & A.1 & A.2 & A.3 & B.1 & B.2 & B.3 & Total \\
-Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
-\midrule
-\tablefragment{../Datawork/Output/Tables/TableA1.tex}
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\fontsize{9}{9}\selectfont
-\item \textit{Notes}: Each column is one of the six strata, defined by municipality and school type. Row (1) is the sampling frame: 374 municipal schools offering elementary or middle school grades, 72 in Joinville and 302 in Manaus. Relative to the 2015 School Census, which records 369 municipal schools offering elementary and middle school education in Manaus and 83 in Joinville, the frame leaves out 67 schools in Manaus and 11 in Joinville. In Manaus, the majority of the schools out of the sample frame are in riverside communities that are very challenging to access for data collection. In Joinville, the 11 schools left out are all small rural schools. The 72 schools in the Joinville frame entered the study, as did all 65 Manaus schools offering grades 1--9 (stratum B.3). In strata B.1 and B.2, the budget did not allow us to survey every school, so we ranked schools by their 2013 IDEB, a school-level index that combines student performance in reading and mathematics with grade promotion rates, and drew the same number of schools at random from each quartile of that ranking, as shown in row (2). Within each of the six strata, we then randomly assigned roughly half of the schools to treatment and half to control, independently of the IDEB ranking; stratum B.3 holds an odd number of schools, hence 33 treated and 32 control.
-\item \textit{Source}: Sampling frame from the pilot's implementation report, prepared by the World Bank in August 2016; school counts for the comparison with the census from the 2015 School Census (INEP). 
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
+% (The old Table A.1, "Sample selected for the pilot study", was replaced by the sampling flow
+% chart in Section 2 -- \autoref{fig:sampling_flow} -- which carries its notes and citations.)
 
-% TableA2 -- shell for the fragment written by 2_Descriptives.do
+% TableA1 -- shell for the fragment written by 3_Descriptives.do
 \begin{table}[ht]
 \centering
 \begin{threeparttable}
@@ -282,7 +263,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
  & C & T & Diff & C & T & Diff & C & T & Diff \\
 \midrule
-\tablefragment{../Datawork/Output/Tables/TableA2.tex}
+\tablefragment{../Datawork/Output/Tables/TableA1.tex}
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
@@ -336,7 +317,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
     \textbf{Statement} & \multicolumn{4}{c}{\textbf{Answers' scale}} & \textbf{Weight} \\
     \midrule
           & Totally agree & Agree & Disagree & Totally disagree &  \\
-\tablefragment{../Datawork/Output/Tables/TableA4.tex}
+\tablefragment{../Datawork/Output/Tables/TableA3.tex}
     \bottomrule
     \end{tabular}%
 \begin{tablenotes}
@@ -351,7 +332,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \end{table}%
 
 \newgeometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
-% TableA5 -- shell for the fragment written by 2_Descriptives.do
+% TableA4 -- shell for the fragment written by 3_Descriptives.do
 \begin{table}[ht]
 \centering
 \begin{threeparttable}
@@ -364,7 +345,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}
  & & C & T & Diff & C & T & Diff & C & T & Diff & C & T & Diff \\
 \midrule
-\tablefragment{../Datawork/Output/Tables/TableA5.tex}
+\tablefragment{../Datawork/Output/Tables/TableA4.tex}
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
@@ -377,7 +358,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \restoregeometry
 
 \newgeometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm}
-% TableA6 -- shell for the fragment written by 2_Descriptives.do
+% TableA5 -- shell for the fragment written by 3_Descriptives.do
 \begin{table}[ht]
 \centering
 \begin{threeparttable}
@@ -390,7 +371,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}
  & & C & T & Diff & C & T & Diff & C & T & Diff & C & T & Diff \\
 \midrule
-\tablefragment{../Datawork/Output/Tables/TableA6.tex}
+\tablefragment{../Datawork/Output/Tables/TableA5.tex}
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
@@ -403,7 +384,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \restoregeometry
 
 \newgeometry{left=2cm, right=2cm, top=1cm, bottom=1cm}
-% TableA7 -- shell for the fragment written by 2_Descriptives.do
+% TableA6 -- shell for the fragment written by 3_Descriptives.do
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
@@ -415,7 +396,7 @@ Grades offered & 1--5 & 6--9 & 1--9 & 1--5 & 6--9 & 1--9 & \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
  & N & Mean/SE & N & Mean/SE & Difference (1)-(2) \\
 \midrule
-\tablefragment{../Datawork/Output/Tables/TableA7.tex}
+\tablefragment{../Datawork/Output/Tables/TableA6.tex}
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
@@ -683,7 +664,7 @@ Standardized ENEM score, 2018 &        793 &       0.13 &        723 &       0.1
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}\cmidrule(lr){14-15}
   & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI & Mean & 95\% CI \\
 \midrule
-\tablefragment{../Datawork/Output/Tables/TableA10.tex}
+\tablefragment{../Datawork/Output/Tables/TableA9.tex}
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
@@ -733,6 +714,30 @@ R-squared   &      0.032 &      0.065 &      0.019 &      0.044 \\
 \fontsize{9}{9}\selectfont
 \item \textit{Notes}: Clustered standard errors at the school level in parentheses; RI denotes randomization inference. *** $p<0.01$, ** $p<0.05$, * $p<0.1$. Columns (2) and (4) add the student's fifth-grade \textit{Prova Brasil} reading and math scores, taken in 2013 for the seventh-grade cohort and in 2011 for the ninth-grade cohort, as controls; the smaller sample in these columns reflects the students the merge with INEP's records located in those waves. Financial proficiency is computed by CAEd from students' answers to a standardized test scored with Item Response Theory. The consumption and savings indices summarize students' answers to fifteen agreement-scale statements, reported with their weights in \autoref{tab:cs_index}. All three indices are normalized to standard-deviation units, so treatment effects are read in standard deviations.
 \item \textit{Source}: Authors' estimates based on the pilot roster merged with INEP's identified student-level administrative records (School Census and \textit{Prova Brasil}). INEP performed the merge; the authors ran all estimates inside INEP's secure facility.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% TableA11 -- shell for the fragment written by 4_Regressions.do (Section 4)
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\fontsize{9}{10}\selectfont
+\caption{First-stage and local average treatment effect (LATE) estimates}\label{tab:first_stage}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{6}{c}@{}}
+\toprule
+ & \multicolumn{2}{c}{Pooled} & \multicolumn{2}{c}{Elementary} & \multicolumn{2}{c}{Middle school} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/TableA11.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: Clustered standard errors at the school level in parentheses. Each column reproduces one of the LATE estimates of \autoref{tab:iv} and reports, below it, its own first stage: the coefficient of random assignment on exposure from \autoref{eq:Y2}, estimated by ordinary least squares on the same sample as the second stage, with its clustered standard error in parentheses and the F statistic of the excluded instrument. Because each outcome is observed for a slightly different set of students, the estimation sample changes across panels, and the first-stage coefficient of the same column therefore varies slightly from one outcome to another. RW denotes Romano-Wolf stepdown p-values (1{,}000 bootstrap replications resampling school clusters within randomization strata), from the same 27-regression family of \autoref{tab:iv}, and stars denote significance levels based on the Romano-Wolf adjusted p-value: * 10\%, ** 5\%, *** 1\%. Exposure is measured under the conservative (i) and broad (ii) definitions described in the text. All three indices are normalized to standard-deviation units. The consumption and savings indices are unavailable for third graders, who did not answer these items. Therefore, elementary estimates represent the fifth grade, while middle school estimates represent the seventh and ninth grades.
+\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students at the end of the 2015 school year.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

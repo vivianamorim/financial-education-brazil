@@ -65,16 +65,17 @@
 	   *(Note that this never updates outdated versions of already installed commands, to update commands use adoupdate)
 
 	   local user_commands sumstats estout unique moremata ietoolkit ivreg2 mdesc ranktest ritest rsort mediation outreg2 sxpose rwolf2 //Fill this list will all user-written commands this project requires
-	   foreach command of local user_commands 
+	   foreach command of local user_commands {
 		   cap which `command'
 		   if _rc == 111 {
 			   ssc install `command', replace
 		   }
 	   }
-	   
+
 	   *Standardize settings accross users
 	   ieboilstart, version(12.1)          //Set the version number to the oldest version used by anyone in the project team
 	   `r(version)'                        //This line is needed to actually set the version from the command above
+	   set sortseed 20150101               //StataMP breaks sorting ties at random: fixing the sort seed makes every run identical
 
 	   graph set window fontface calibri
 	   set varabbrev off
@@ -178,13 +179,20 @@
 	 do "$dofiles\ado\medeff.ado"
 	 do "$dofiles\ado\medsens.ado"
 	 do "$dofiles\ado\ritest.ado"
+	 do "$dofiles\ado\rwolf2.ado"
+	 do "$dofiles\ado\estout.ado"			//estout package frozen in the repo: estout, esttab, eststo (+_eststo),
+	 do "$dofiles\ado\esttab.ado"			//estadd and estpost, so SSC updates never change the tables
+	 do "$dofiles\ado\eststo.ado"
+	 do "$dofiles\ado\_eststo.ado"
+	 do "$dofiles\ado\estadd.ado"
+	 do "$dofiles\ado\estpost.ado"
 
 	 
 	 timer on 1
-	 *run "$dofiles\1_Cleaning"				//cleans data, create important variables for analysis e saves Fin_Lit_pooled_data_clean.dta in the folder DataWork\Data\3. Final.
-	 *run "$dofiles\2_Program Implementation.do"		
-	 *run "$dofiles\3_Descriptives.do"		
-	 *run "$dofiles\4_Regressions.do" 		
+	 run "$dofiles\1_Cleaning"				//cleans data, creates the analysis variables and saves Fin_Lit_pooled_data_clean.dta in DataWork\Data\3. Final
+	 run "$dofiles\2_Program Implementation.do"
+	 run "$dofiles\3_Descriptives.do"		//sampling flow chart (Figure 1) and Tables A.1, A.3, A.4, A.5 and A.6
+	 run "$dofiles\4_Regressions.do"		//Tables 3, 4, 6, A.9, A.11 and OA1; Figure 2 and Figures OA1-OA3 (SLOW: rwolf2, ritest and medsens with 1000 reps)
 	 timer off 1
 	 timer list 1
 	*_________________________________________________________________________________________________________________________*

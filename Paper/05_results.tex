@@ -35,7 +35,7 @@ To investigate whether the intervention had distributional impacts on financial 
 \begin{figure}[htbp]
 		\caption{Unconditional Quantile ITT estimates for financial proficiency - 95\% CI}
 		\centering
-		\includegraphics[width=\textwidth]{Figure1.pdf}
+		\includegraphics[width=\textwidth]{Figure2.pdf}
 	    \label{fig:te_firstcycle}
      
      \raggedright
@@ -76,61 +76,6 @@ decompose the treatment effect estimates into the average causal mediation effec
 the average causal direct effect (ADE).\footnote {See the online appendix for a formal discussion of Causal Mediation Effects.} The goal of this exercise is to assess the share of the change in behavioral outcomes that could be attributed to improvements in financial proficiency (ACME) and the share that comes directly from the program (ADE).\footnote{The decomposition of ITT effects on ACME and ADE relies on the sequential ignorability assumption. The first part of the assumption assumes that, conditioned on pre-treatment confounders, the treatment assignment is orthogonal to the potential outcomes and the mediator outcome (financial proficiency). The second part of the assumption implies that the observed mediator is ignorable given the actual treatment status and pre-treatment confounders \citep{imai2011unpacking}. This second part of the assumption is the strongest, even in the presence of random assignment. It posits that, conditional on the actual treatment (not the treatment assignment) and a vector of pre-treatment confounders, the outcome is independent of the mediator. Note that in our case, this implies the assumption that attitudinal and behavioral outcomes are orthogonal to financial proficiency, given the actual treatment and after controlling for a vector of school characteristics. Since we did not design the experiment to obtain clean estimates of the ACME and ADE, we interpret our results as suggestive evidence.}
 
 According to the estimates in \autoref{tab:acme}, financial proficiency mediates part of the improvement in students' hypothetical attitudes toward consumption: among middle school students, the mediated component accounts for about half of the total effect. For elementary school students, by contrast, every mediated component is statistically indistinguishable from zero, so the effects on attitudes and on talking about money with parents and friends are direct. The same holds for the behavioral outcomes at both school levels, where the mediated components are negligible. In other words, the ADE and ACME estimates suggest that financial education programs affect students' attitudes and behavior through pathways other than the accumulation of formal knowledge. Overall, the estimates do not support the hypothesis that changes in financial proficiency are a necessary condition for changes in individuals' behavioral outcomes, a finding consistent with \citet{carpena2020causal} and \citet{de2021effect}.
-
-\subsection{Robustness Check} 
-
-As discussed in \autoref{sec:data_c}, the student-level merge with INEP's records recovers pre-treatment proficiency scores in reading and math for the seventh- and ninth-grade cohorts, and \autoref{tab:balance_adm2} shows that ninth-grade control students outperformed treated ones in reading before the pilot. Since principals, and not chance, chose the participating classes, this imbalance could bias our estimates. We therefore re-estimate \autoref{eq:Y} for these two cohorts controlling for their fifth-grade proficiency scores.\footnote{These are the only two cohorts with a pre-treatment performance score: seventh graders sat the fifth-grade test in 2013 and ninth graders in 2011.}
-
-Controlling for past performance leads to a substantial gain in precision. Among ninth graders, the point estimate for financial proficiency rises from 0.107 to 0.149 of a standard deviation; and among seventh graders, it rises slightly from 0.09 to 0.098 (\autoref{tab:add_5prof_control}). The pattern suggests that ignoring the pre-treatment imbalance would underestimate the program's impact on financial proficiency, particularly for ninth graders. Controlling for past performance does not change the estimates for consumption and saving attitudes. 
-
-
-\subsection{Implementation and IV Results}
-
-As discussed in \autoref{sec:implementation}, we found evidence of contamination, especially in the control group. Because exposure to financial education content varied across classes within schools in both arms, the ITT compares assignment rather than exposure. To recover the effect of actual exposure, we use the random assignment as an instrument for exposure, following \cite{frisancho2023school}.
-
-We measure exposure using two definitions, regardless of the arm to which the school was assigned. The conservative one is defined at the class level: it sets $Z=1$ when a teacher reports delivering financial education classes.\footnote{If the teacher answered the question ``\textit{How many financial education classes did you teach?}'', with answer categories running from one to eight or more, or the question ``\textit{What share of the student textbook did you cover?}'', with categories running from below 40\% to above 80\%.} For the classes whose teachers did not answer the teacher questionnaire, we set $Z=1$ if more than half of the students from those classes report having had such classes. The broad one is defined at the student level: it sets $Z=1$ when a teacher of the student's class reports delivering the financial education classes, as in the conservative definition, or when the student themselves reports having had them. Under the conservative definition, 97.8\% of students in treated classes and 11.1\% in control classes are classified as exposed; under the broad definition, 97.3\% and 21.5\%, respectively.
-
-We estimate the local average treatment effect (LATE) by two-stage least squares. The first stage is
-\begin{align}
-     Z_{iksm} = \pi_0 + \pi_1 T_{iksm} + \sum_{n=1}^{6} \gamma_n + \nu_{iksm}
-     \label{eq:Y2}
-\end{align}
-and the second stage is
-\begin{align}
-    Y_{iksm} = \lambda_0 + \lambda_1 \widehat{Z}_{iksm} + \sum_{n=1}^{6} \gamma_n + \omega_{iksm}
-    \label{eq:Y3}
-\end{align}
-\noindent
-where $Z$ is the exposure of student $i$'s class under the conservative definition and the student's own exposure under the broad one, $T$ is the random assignment of \autoref{eq:Y}, and the remaining notation follows that equation. Standard errors are clustered at the school level, the randomization unit. The parameter of interest, $\lambda_1$, is the LATE: the average effect of exposure among compliers, that is, the classes (under the conservative definition) or students (under the broad definition) that were exposed to the program because their school was assigned to the treatment group, and would not have been exposed otherwise.
-
-\autoref{tab:iv} reports the LATE estimates next to the ITT under both definitions of exposure. For financial proficiency the differences are moderate: among middle school students, the effect rises from 0.099 of a standard deviation to 0.112 under the conservative definition and 0.135 under the broad one. For the attitude indices among elementary students, the correction is substantial: under the broad definition, the effect on the consumption index rises from 0.122 to 0.202 of a standard deviation, and on the saving index from 0.087 to 0.143. Exposure to the program therefore had modest effects on financial proficiency even among the classes that delivered the content, while its effects on the reported attitudes of younger students are sizeable once imperfect compliance is taken into account; since the broad definition relies on students' own reports, these larger estimates are best read as upper bounds.
-
-\vspace{10 pt}
-
-\begin{table}[h!]
-\centering
-\begin{threeparttable}
-\fontsize{9}{10}\selectfont
-\caption{Intention-to-treat (ITT) and local average treatment effect (LATE) estimates}\label{tab:iv}
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{9}{c}}
-\toprule
- & \multicolumn{3}{c}{Pooled} & \multicolumn{3}{c}{Elementary} & \multicolumn{3}{c}{Middle school} \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
- & ITT & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} & ITT & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} & ITT & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} \\
-\midrule
-\tablefragment{../Datawork/Output/Tables/Table5.tex}
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\fontsize{9}{9}\selectfont
-\item \textit{Notes}: Clustered standard errors at the school level in parentheses. RW denotes Romano-Wolf stepdown p-values (1{,}000 bootstrap replications resampling school clusters within randomization strata), adjusting for the joint testing of the 27 regressions reported in this table (every outcome, subsample, and estimator) as a single family, reported below the standard error. Stars denote significance levels based on the Romano-Wolf adjusted p-value: * 10\%, ** 5\%, *** 1\%. ITT is the reduced-form effect of random assignment; LATE instruments actual program exposure (\(Z\)) with random assignment. Exposure is measured under two definitions: (i) the conservative one, defined at the class level, which requires a teacher of the class to report having taught the financial education classes or covered part of the textbook, and, for the classes whose teachers did not answer their pilot questionnaire, that more than half of the students report having had such classes; and (ii) the broad one, defined at the student level, which sets \(Z=1\) when a teacher of the class reports delivering the classes or the student themselves reports having had them. Both are defined in the text. All three indices are normalized to standard-deviation units. The consumption and savings indices are unavailable for third graders, who did not answer these items. Therefore, elementary estimates represent the fifth grade, while middle school estimates represent the seventh and ninth grades. 
-\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students at the end of the 2015 school year.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\subsection{Human Capital Accumulation}
 
 Finally, we test whether the gains in financial proficiency and the more prudent attitudes toward saving and consumption, which might indicate that students became more forward-looking, translate into higher investment in human capital. If that were the case, we should see lower repetition and dropout and higher proficiency in Portuguese and math.
 
@@ -179,6 +124,59 @@ Obs. & 4650 & 4755 & 3137 & 2851 \\
 \item \textit{Notes}: Clustered standard errors at the school level in parentheses. Stars denote significance levels based on conventional p-values: * 10\%, ** 5\%, *** 1\%. The estimates were produced inside INEP's secure facility, where the bootstrap-based Romano-Wolf were not run; since the estimates are null, adjusting for multiple hypothesis testing would only reinforce the conclusions. Each dependent variable is regressed on treatment assignment, with one specification per cohort. Columns (1) and (2) include strata fixed effects only, since the third- and fifth-grade cohorts have no pre-pilot test score. Columns (3) and (4) add the student's pre-pilot fifth-grade \textit{Prova Brasil} performance, taken in 2013 by the seventh-grade cohort and in 2011 by the ninth-grade cohort, which controls for the pre-treatment imbalance documented in \autoref{tab:balance_adm2}.
 \item \textit{Timing}: repetition and dropout (Panel A) are cumulative over 2015--2018. In Panel B, the ``Assessed in'' row gives the year each cohort sits \textit{Prova Brasil}: the fifth- and ninth-grade cohorts are assessed in the pilot year (2015, contemporaneous), while the third- and seventh-grade cohorts are assessed two years later (2017), when they reach the next assessment grade (see \autoref{tab:inep_data}). Panel C outcomes refer to 2018 and exist only for the ninth-grade cohort.
 \item \textit{Source}: Authors' estimates based on the pilot roster merged with INEP's identified student-level administrative records (School Census, \textit{Prova Brasil}, and ENEM). INEP performed the merge; the authors ran all estimates inside INEP's secure facility.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Robustness Check} 
+
+As discussed in \autoref{sec:data_c}, the student-level merge with INEP's records recovers pre-treatment proficiency scores in reading and math for the seventh- and ninth-grade cohorts, and \autoref{tab:balance_adm2} shows that ninth-grade control students outperformed treated ones in reading before the pilot. Since principals, and not chance, chose the participating classes, this imbalance could bias our estimates. We therefore re-estimate \autoref{eq:Y} for these two cohorts controlling for their fifth-grade proficiency scores.\footnote{These are the only two cohorts with a pre-treatment performance score: seventh graders sat the fifth-grade test in 2013 and ninth graders in 2011.}
+
+Controlling for past performance leads to a substantial gain in precision. Among ninth graders, the point estimate for financial proficiency rises from 0.107 to 0.149 of a standard deviation; and among seventh graders, it rises slightly from 0.09 to 0.098 (\autoref{tab:add_5prof_control}). The pattern suggests that ignoring the pre-treatment imbalance would underestimate the program's impact on financial proficiency, particularly for ninth graders. Controlling for past performance does not change the estimates for consumption and saving attitudes. 
+
+
+\subsection{Implementation and IV Results}
+
+As discussed in \autoref{sec:implementation}, we found evidence of contamination, especially in the control group. Because exposure to financial education content varied across classes within schools in both arms, the ITT compares assignment rather than exposure. To recover the effect of actual exposure, we use the random assignment as an instrument for exposure, following \cite{frisancho2023school}.
+
+We measure exposure using two definitions, regardless of the arm to which the school was assigned. The conservative one is defined at the class level: it sets $Z=1$ when a teacher reports delivering financial education classes.\footnote{If the teacher answered the question ``\textit{How many financial education classes did you teach?}'', with answer categories running from one to eight or more, or the question ``\textit{What share of the student textbook did you cover?}'', with categories running from below 40\% to above 80\%.} For the classes whose teachers did not answer the teacher questionnaire, we set $Z=1$ if more than half of the students from those classes report having had such classes. The broad one is defined at the student level: it sets $Z=1$ when a teacher of the student's class reports delivering the financial education classes, as in the conservative definition, or when the student themselves reports having had them. Under the conservative definition, 97.8\% of students in treated classes and 11.1\% in control classes are classified as exposed; under the broad definition, 97.3\% and 21.5\%, respectively.
+
+We estimate the local average treatment effect (LATE) by two-stage least squares. The first stage is
+\begin{align}
+     Z_{ism} = \pi_0 + \pi_1 T_{ism} + \sum_{n=1}^{6} \gamma_n + \nu_{ism}
+     \label{eq:Y2}
+\end{align}
+and the second stage is
+\begin{align}
+    Y_{ism} = \lambda_0 + \lambda_1 \widehat{Z}_{ism} + \sum_{n=1}^{6} \gamma_n + \omega_{ism}
+    \label{eq:Y3}
+\end{align}
+\noindent
+where $Z$ is the exposure of student $i$'s class under the conservative definition and the student's own exposure under the broad one, $T$ is the random assignment of \autoref{eq:Y}, and the remaining notation follows that equation. Standard errors are clustered at the school level, the randomization unit. The parameter of interest, $\lambda_1$, is the LATE: the average effect of exposure among compliers, that is, the classes (under the conservative definition) or students (under the broad definition) that were exposed to the program because their school was assigned to the treatment group, and would not have been exposed otherwise.
+
+\autoref{tab:iv} reports the LATE estimates next to the ITT under both definitions of exposure.\footnote{The first-stage estimates behind each LATE are reported in \autoref{tab:first_stage}.} For financial proficiency the differences are moderate: among middle school students, the effect rises from 0.099 of a standard deviation to 0.112 under the conservative definition and 0.135 under the broad one. For the attitude indices in grade 5, the correction is substantial: under the broad definition, the effect on the consumption index rises from 0.122 to 0.202 of a standard deviation, and on the saving index from 0.087 to 0.143. Exposure to the program therefore had modest effects on financial proficiency even among the classes that delivered the content, while its effects on the reported attitudes of younger students are sizeable once imperfect compliance is taken into account; since the broad definition relies on students' own reports, these larger estimates are best read as upper bounds.
+
+\vspace{10 pt}
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+\fontsize{9}{10}\selectfont
+\caption{Intention-to-treat (ITT) and local average treatment effect (LATE) estimates}\label{tab:iv}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{9}{c}}
+\toprule
+ & \multicolumn{3}{c}{Pooled} & \multicolumn{3}{c}{Elementary} & \multicolumn{3}{c}{Middle school} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+ & ITT & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} & ITT & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} & ITT & \shortstack{LATE\\ (i)} & \shortstack{LATE\\ (ii)} \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/Table6.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: Clustered standard errors at the school level in parentheses. RW denotes Romano-Wolf stepdown p-values (1{,}000 bootstrap replications resampling school clusters within randomization strata), adjusting for the joint testing of the 27 regressions reported in this table (every outcome, subsample, and estimator) as a single family, reported below the standard error. Stars denote significance levels based on the Romano-Wolf adjusted p-value: * 10\%, ** 5\%, *** 1\%. ITT is the reduced-form effect of random assignment; LATE instruments actual program exposure (\(Z\)) with random assignment. Exposure is measured under two definitions: (i) the conservative one, defined at the class level, which requires a teacher of the class to report having taught the financial education classes or covered part of the textbook, and, for the classes whose teachers did not answer their pilot questionnaire, that more than half of the students report having had such classes; and (ii) the broad one, defined at the student level, which sets \(Z=1\) when a teacher of the class reports delivering the classes or the student themselves reports having had them. Both are defined in the text. All three indices are normalized to standard-deviation units. The consumption and savings indices are unavailable for third graders, who did not answer these items. Therefore, elementary estimates represent the fifth grade, while middle school estimates represent the seventh and ninth grades. 
+\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students at the end of the 2015 school year.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

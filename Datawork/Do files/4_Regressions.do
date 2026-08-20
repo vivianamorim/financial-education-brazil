@@ -12,10 +12,10 @@
     *  Section 1: Programs               -- helper programs used throughout (add, chart, charts)
     *  Section 2: Table 3                -- ITT estimates: financial proficiency and the consumption and savings indices
     *  Section 3: Table 4                -- ITT estimates: behavioural outcomes
-    *  Section 4: Table 5                -- Intention-to-treat (ITT) and local average treatment effect (LATE)
-    *  Section 5: Table A.10             -- Average causal mediation effects (ACME)
-    *  Section 6: Figures 1, B.2a, B.2b  -- Quantile treatment effects on financial proficiency
-    *  Section 7: Appendix figures       -- ACME sensitivity analysis (medsens)
+    *  Section 4: Tables 6 and A.11      -- Intention-to-treat (ITT) and local average treatment effect (LATE); first stage + LATE
+    *  Section 5: Table A.9              -- Average causal mediation effects (ACME)
+    *  Section 6: Figure 2               -- Quantile treatment effects on financial proficiency
+    *  Section 7: Figures OA1-OA3        -- ACME sensitivity analysis (medsens, online appendix)
     *  Section 8: Table OA1              -- Table 3 re-estimated with class-clustered standard errors (online appendix)
     *____________________________________________________________________________________________________________________________________*
 
@@ -29,8 +29,8 @@
     **
     {
         *-------------------------------------------------------------------------------------------------------------->
-        *add: saves the randomization inference results
-        cap program drop add                                                         //para salvar os resultados de RI
+        *add: attaches the randomization-inference p-value to a stored estimate
+        cap program drop add
         program define   add
             syntax, results(string)
             scalar pvalue = el(r(p),1,1)
@@ -47,8 +47,8 @@
             if "`var'"   == "pca_save_sm"    local title  "Saving index"
             if "`var'"   == "talk_parents"   local title  "Talk to parents"
             if "`var'"   == "talk_friends"   local title  "Talk to friends"
-            if "`var'"   == "pigg"           local title  "Piggy's bank use"
-            if "`var'"   == "finan_serv"     local title  "Use of finantial services"
+            if "`var'"   == "pigg"           local title  "Piggy bank use"
+            if "`var'"   == "finan_serv"     local title  "Use of financial services"
             if "`var'"   == "allowance2"     local title  "Allowance"
             if "`ciclo'" == "pooled"         local title2 "pooled"
             if "`ciclo'" == "1st"            local title2 "Primary education"
@@ -58,7 +58,6 @@
                 ytitle("ACME({&rho})",size(medium)) title("`title', `title2'", size(medium)) xtitle("Sensitivity parameter: {&rho}", size(medium)) legend(off) scheme(sj) ///
                 ylabel(, nogrid) ///
                 graphregion(fcolor(white) lcolor(white))
-            *graph export "$figures/`ciclo'_`var'.emf", as(emf) replace
         end
 
         *-------------------------------------------------------------------------------------------------------------->
@@ -96,7 +95,7 @@
                 legend(off) ///
                 note("$gr_note", color(black) fcolor(background) pos(7) size(small)))
 
-            *Each panel is saved on its own and the three are combined into Figure 1 after the last call
+            *Each panel is saved on its own and the three are combined into Figure 2 after the last call
             if "`model'" == "Pooled"               graph save "$figures/uqitt_pooled.gph"    , replace
             if "`model'" == "Elementary education" graph save "$figures/uqitt_elementary.gph", replace
             if "`model'" == "Middle school"        graph save "$figures/uqitt_middle.gph"    , replace
@@ -156,7 +155,7 @@
                (reg sm_R7             d $estrato, cluster(cd_escola)) ///
                (reg pca_consump_sm_R7 d $estrato, cluster(cd_escola)) ///
                (reg pca_save_sm_R7    d $estrato, cluster(cd_escola)) ///
-             , indepvars(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d) cluster(cd_escola) strata(estrato) reps(1000) seed(20150101) nodots
+             , indepvars(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d) cluster(cd_escola) strata(estrato) reps(`REPS') seed(20150101) nodots
 
         forvalues c = 1/7 {
             foreach v in sm pca_consump_sm pca_save_sm {
@@ -260,7 +259,7 @@
                (reg pigg_R3         d $estrato, cluster(cd_escola)) ///
                (reg finan_serv_R3   d $estrato, cluster(cd_escola)) ///
                (reg allowance2_R3   d $estrato, cluster(cd_escola)) ///
-             , indepvars(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d) cluster(cd_escola) strata(estrato) reps(1000) seed(20150101) nodots
+             , indepvars(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d) cluster(cd_escola) strata(estrato) reps(`REPS') seed(20150101) nodots
 
         forvalues c = 1/3 {
             foreach v in talk_parents talk_friends pigg finan_serv allowance2 {
@@ -317,7 +316,7 @@
     **
     *____________________________________________________________________________________________________________________________________*
     **
-    *Section 4: Table 5 -- Intention-to-treat (ITT) and local average treatment effect (LATE)
+    *Section 4: Tables 6 and A.11 -- Intention-to-treat (ITT) and local average treatment effect (LATE); first stage + LATE
     *ITT  = reduced-form effect of random assignment (d), from reg.
     *LATE = effect of actual exposure, instrumented by assignment, from ivregress 2sls (treated = d).
     *esttab writes the table; rename(treated d) aligns the LATE coefficient onto the ITT "Treatment" row.
@@ -325,6 +324,8 @@
     *____________________________________________________________________________________________________________________________________*
     **
     {
+        local REPS = 1000                                                            //rwolf2 bootstrap repetitions
+
         use "$dtfinal/Fin_Lit_pooled_data_clean.dta", clear
 
         *-------------------------------------------------------------------------------------------------------------->
@@ -369,7 +370,7 @@
              , indepvars(d, treated, treated2, d, treated, treated2, d, treated, treated2,     ///
                          d, treated, treated2, d, treated, treated2, d, treated, treated2,     ///
                          d, treated, treated2, d, treated, treated2, d, treated, treated2)     ///
-               cluster(cd_escola) strata(estrato) reps(1000) seed(20150101) nodots
+               cluster(cd_escola) strata(estrato) reps(`REPS') seed(20150101) nodots
 
         forvalues g = 1/3 {
             foreach v in sm pca_consump_sm pca_save_sm {
@@ -386,7 +387,7 @@
         *-------------------------------------------------------------------------------------------------------------->
         *One vertical panel per outcome; per subsample, three columns: ITT, then the LATE under the conservative
         *exposure measure (treated) and under the broad one (treated2). The LaTeX table shell (caption, column
-        *headers, notes) lives in Paper/05_results.tex; this loop writes only the rows to $textables/Table5.tex
+        *headers, notes) lives in Paper/05_results.tex; this loop writes only the rows to $textables/Table6.tex
         local mode replace
         local sep  ""
         foreach var of varlist sm pca_consump_sm pca_save_sm {
@@ -436,10 +437,74 @@
                 }
             }
 
-            esttab `models' using "$textables/Table5.tex", `mode' ///
+            esttab `models' using "$textables/Table6.tex", `mode' ///
                 rename(treated d treated2 d) keep(d) coeflabels(d "Treatment") ///
                 cells(b(star pvalue(pwolfmat) fmt(%9.3f)) se(par fmt(%9.3f))) ///
                 stats(pwolf N r2, fmt(%9.3f %9.0f %9.3f) labels("pvalue RW" "N. obs" "R-squared")) ///
+                starlevels(* 0.10 ** 0.05 *** 0.01) fragment nolines nonumbers nomtitles collabels(none) ///
+                prehead("`sep'") refcat(d "\textbf{`pname'}", nolabel)
+            local mode append
+            local sep  "\midrule"
+        }
+
+        *-------------------------------------------------------------------------------------------------------------->
+        *-------------------------------------------------------------------------------------------------------------->
+        *Table A.11 -- First-stage and LATE estimates. Re-runs the six LATE columns of Table 6 (two exposure
+        *measures x three subsamples) and, for each column, adds its own first stage: OLS of the exposure on the
+        *assignment (d) over that column's exact estimation sample, with the school-clustered SE and the F of the
+        *excluded instrument (the squared t of d). LATE stars and RW p-values reuse the scalars of the 27-strong
+        *family above. The LaTeX shell lives in Paper/Fin_Lit_Paper.tex; this loop writes $textables/TableA11.tex
+        local mode replace
+        local sep  ""
+        foreach var of varlist sm pca_consump_sm pca_save_sm {
+            if "`var'" == "sm"             local pname "Financial proficiency"
+            if "`var'" == "pca_consump_sm" local pname "Consumption index"
+            if "`var'" == "pca_save_sm"    local pname "Saving index"
+
+            est clear
+            local models ""
+            local m = 0
+
+            forvalues g = 1/3 {
+                local cond ""
+                if `g' == 2 local cond "if serie<7"
+                if `g' == 3 local cond "if serie>5"
+
+                local k = 0
+                foreach z in treated treated2 {
+                    local ++m
+                    local ++k
+                    eststo fst`m': ivregress 2sls `var' $estrato (`z' = d) `cond', vce(cluster cd_escola)
+
+                    matrix define   pwolf_m = J(1,1,0)
+                    matrix colnames pwolf_m = "`z'"
+                    matrix pwolf_m[1,1]     = rw`k'_`var'_`g'
+                    estadd matrix pwolfmat  = pwolf_m         : fst`m'
+                    estadd scalar pwolf     = rw`k'_`var'_`g' : fst`m'
+
+                    *First stage on the exact estimation sample of the 2SLS column above. The
+                    *results go into locals BEFORE the estadds: estadd with ":" evaluates its
+                    *expression in the context of the stored 2SLS model, where _b[d] does not exist
+                    gen byte smp_iv = e(sample)
+                    reg `z' d $estrato if smp_iv, cluster(cd_escola)
+                    test d
+                    local fs_F  = r(F)
+                    local fs_b  = _b[d]
+                    local fs_se : display %9.3f _se[d]
+                    estadd scalar fs_F = `fs_F'                   : fst`m'
+                    estadd scalar fs_b = `fs_b'                   : fst`m'
+                    estadd local  fs_se "(`=strtrim("`fs_se'")')" : fst`m'
+                    drop smp_iv
+
+                    local models "`models' fst`m'"
+                }
+            }
+
+            esttab `models' using "$textables/TableA11.tex", `mode' ///
+                rename(treated d treated2 d) keep(d) coeflabels(d "Treatment") ///
+                cells(b(star pvalue(pwolfmat) fmt(%9.3f)) se(par fmt(%9.3f))) ///
+                stats(pwolf fs_b fs_se fs_F N, fmt(%9.3f %9.3f %9s %9.1f %9.0f) ///
+                      labels("pvalue RW" "First stage: assignment" "\hphantom{First stage}" "First-stage F" "N. obs")) ///
                 starlevels(* 0.10 ** 0.05 *** 0.01) fragment nolines nonumbers nomtitles collabels(none) ///
                 prehead("`sep'") refcat(d "\textbf{`pname'}", nolabel)
             local mode append
@@ -453,8 +518,8 @@
     **
     *____________________________________________________________________________________________________________________________________*
     **
-    *Section 5: Table A.10 -- Average causal mediation effects (ACME)
-    *Generates the LaTeX fragment for the causal-mediation table (Table A.10 in the paper, ACME).
+    *Section 5: Table A.9 -- Average causal mediation effects (ACME)
+    *Generates the LaTeX fragment for the causal-mediation table (Table A.9 in the paper, ACME).
     *Mediator = financial proficiency (sm). Estimated with medeff (mediation package).
     *Sample: 5th, 7th and 9th grades only -- 3rd graders (who answered only pigg and finan_serv) are excluded,
     *so every outcome covers the same grades. Seeds kept from the original 3_Regressions.do, one per level.
@@ -468,7 +533,7 @@
     *This do-file uses the CORRECT mapping (Total=tau, ADE=zeta1, ACME=delta0, %=navg).
     *
     *medsens / sensitivity charts are NOT run here (only the table is produced).
-    *Output: Output/Tables/TableA10.tex -- data rows only; the table shell lives in Paper/Fin_Lit_Paper.tex (appendix)
+    *Output: Output/Tables/TableA9.tex -- data rows only; the table shell lives in Paper/Fin_Lit_Paper.tex (appendix)
     *____________________________________________________________________________________________________________________________________*
     **
     {
@@ -520,8 +585,8 @@
         local levnames `" "Pooled" "Primary education students" "Middle school students" "'
         local levkeys  pooled primary middle
 
-        file open tex using "$textables/TableA10.tex", write replace
-        file write tex "% Generated by 3_Regressions.do (Section 5) -- data rows only, do not edit by hand." _n
+        file open tex using "$textables/TableA9.tex", write replace
+        file write tex "% Generated by Do files/4_Regressions.do (Section 5) -- data rows only, do not edit by hand." _n
         forvalues lv = 1/3 {
             local L     : word `lv' of `levkeys'
             local Lname : word `lv' of `levnames'
@@ -550,12 +615,14 @@
     **
     *____________________________________________________________________________________________________________________________________*
     **
-    *Section 6: Figures 1, B.2a and B.2b -- quantile treatment effects on financial proficiency
+    *Section 6: Figure 2 -- quantile treatment effects on financial proficiency
+    *Simultaneous quantile regressions (sqreg, 1000 bootstrap reps) of the strata-residualized financial
+    *proficiency on assignment; the charts helper turns each r(table) into one panel, and the three panels
+    *are combined into $figures/Figure2.pdf, the shell of which lives in Paper/05_results.tex.
     *____________________________________________________________________________________________________________________________________*
     **
     {
-        estimates clear
-        use "$dtfinal/Fin_Lit_pooled_data_clean.dta", replace
+        use "$dtfinal/Fin_Lit_pooled_data_clean.dta", clear
         reg sm $estrato
         predict resid, residuals
 
@@ -564,90 +631,78 @@
         *-------------------------------------------------------------------------------------------------------------->
         *Pooled
         preserve
-            cap noi eststo: sqreg resid d,              quantile(.05 .1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95) reps(1000)
+            sqreg resid d,              quantile(.05 .1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95) reps(1000)
             charts, model("Pooled")
         restore
 
         *-------------------------------------------------------------------------------------------------------------->
         *Primary education
         preserve
-            cap noi eststo: sqreg resid d if serie < 7, quantile(.05 .1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95) reps(1000)
+            sqreg resid d if serie < 7, quantile(.05 .1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95) reps(1000)
             charts, model("Elementary education")
         restore
 
         *-------------------------------------------------------------------------------------------------------------->
         *Middle school
         preserve
-            cap noi eststo: sqreg resid d if serie > 5, quantile(.05 .1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95) reps(1000)
+            sqreg resid d if serie > 5, quantile(.05 .1 .15 .2 .25 .3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95) reps(1000)
             charts, model("Middle school")
         restore
 
         *-------------------------------------------------------------------------------------------------------------->
-        *Figure 1: the three samples side by side in a single figure
+        *Figure 2: the three samples side by side in a single figure
         graph combine "$figures/uqitt_pooled.gph" "$figures/uqitt_elementary.gph" "$figures/uqitt_middle.gph", ///
             rows(1) ycommon ///
             graphregion(color(white) fcolor(white) lcolor(white) icolor(white) ifcolor(white) ilcolor(white)) ///
             ysize(4.5) xsize(13)
-        graph export "$figures/Figure1.pdf", as(pdf) replace
+        graph export "$figures/Figure2.pdf", as(pdf) replace
 
         erase "$figures/uqitt_pooled.gph"
         erase "$figures/uqitt_elementary.gph"
         erase "$figures/uqitt_middle.gph"
-        *grqreg, ols
+
+        display "QUANTILE_FIGURE_DONE"
     }
 
 
     **
     *____________________________________________________________________________________________________________________________________*
     **
-    *Section 7: Appendix figures -- ACME sensitivity analysis (medsens)
-    *Table A13, Figures 1, 2, 3 appendix.
+    *Section 7: Figures OA1, OA2 and OA3 -- ACME sensitivity analysis (medsens), online appendix
+    *Same specifications as Section 5, one medsens call per (cycle x outcome): the strata whose coefficient
+    *is omitted in the estimation sample are dropped from the controls automatically (medsens breaks if any
+    *coefficient is omitted), which replaces the hand-picked strata lists of the original code. The chart
+    *helper saves one panel per call; the panels are combined into the three online-appendix figures below.
     *____________________________________________________________________________________________________________________________________*
     **
     {
         use   "$dtfinal/Fin_Lit_pooled_data_clean.dta", replace
-        merge m:1 cd_escola using "$dtinter/School characteristics.dta", keep (match master) nogen
+        merge m:1 cd_escola using "$dtinter/School characteristics.dta", keep(match master) nogen
+        tab complexidade, gen(complexidade)                                          //medsens does not accept factor variables
 
-        tab complexidade, gen (complexidade)                                         //Fiz isso porque o comando medeff nao aceita factor variables
-        //Este comando não aceita nenhum coeficiente que seja missing na regressão. Depois de rodar pela primeira vez, eu vi os eventuais missings e os excluí dos controles das regressões abaixo.
+        local scov   ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess complexidade2 complexidade3
+        local strata strata421 strata422 strata423 strata132 strata133
 
-        *-------------------------------------------------------------------------------------------------------------->
-        *Pooled
-        local nvar = 1
-        foreach var of varlist pca_consump_sm pca_save_sm talk_parents talk_friends pigg finan_serv allowance2 {
-            medsens (regress sm d strata421 strata422 strata423 strata132 strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) 	(regress `var' d sm  strata421 strata422 strata423 strata132 strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3), treat(d) mediate(sm)
-            chart, ciclo(pooled) var(`var')
-            local nvar = `nvar' + 1
-        }
+        local ciclos pooled 1st 2nd
+        local conds  `" "" "if serie < 7" "if serie > 5" "'
 
-        *-------------------------------------------------------------------------------------------------------------->
-        *Primary education
-        local nvar = 1
-        foreach var of varlist pca_consump_sm pca_save_sm talk_parents talk_friends allowance2 {
-            medsens  (regress sm d strata421 		  strata423 		  strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3)  (regress `var' d sm strata421 		    strata423 			  strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) if serie < 7 , treat(d) mediate(sm)
-            chart, ciclo(1st) var(`var')
-            local nvar = `nvar' + 1
-        }
+        forvalues s = 1/3 {
+            local ciclo : word `s' of `ciclos'
+            local ifc   : word `s' of `conds'
+            foreach var of varlist pca_consump_sm pca_save_sm talk_parents talk_friends pigg finan_serv allowance2 {
 
-        foreach var of varlist pigg finan_serv {
-            medsens  (regress sm d strata421 strata422 strata423 		  strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3)  (regress `var' d sm strata421 strata422 strata423 			  strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) if serie < 7 , treat(d) mediate(sm)
-            chart, ciclo(1st) var(`var')
-            local nvar = `nvar' + 1
-        }
+                *Keep only the strata whose coefficient is not omitted in this (cycle x outcome) sample
+                qui reg `var' d sm `strata' `scov' `ifc'
+                matrix b = e(b)
+                local names : colfullnames b
+                local strat ""
+                foreach x of local strata {
+                    if strpos("`names'", "o.`x'") == 0 local strat "`strat' `x'"
+                }
 
-        *-------------------------------------------------------------------------------------------------------------->
-        *Middle school
-        local nvar = 1
-        foreach var of varlist pca_consump_sm pca_save_sm talk_parents pigg finan_serv allowance2 {
-            medsens  (regress sm d 				      strata423 strata132 strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) (regress `var' d sm   					strata423 	strata132 strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) if serie > 5 , treat(d) mediate(sm)
-            chart, ciclo(2nd) var(`var')
-            local nvar = `nvar' + 1
-        }
-
-        foreach var of varlist talk_friends {
-            medsens  (regress sm d  		strata422 strata423 		  strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) 	(regress `var' d sm 		  strata422 strata423 			  strata133 ComputerLab ScienceLab WasteCollection WasteRecycling SportCourt SewerAccess  complexidade2 complexidade3) if serie > 5 , treat(d) mediate(sm)
-            chart, ciclo(2nd) var(`var')
-            local nvar = `nvar' + 1
+                medsens (regress sm d `strat' `scov') (regress `var' d sm `strat' `scov') `ifc', treat(d) mediate(sm)
+                chart, ciclo(`ciclo') var(`var')
+            }
         }
 
         *-------------------------------------------------------------------------------------------------------------->
@@ -722,7 +777,7 @@
                (reg sm_R7             d $estrato, cluster(cd_turma)) ///
                (reg pca_consump_sm_R7 d $estrato, cluster(cd_turma)) ///
                (reg pca_save_sm_R7    d $estrato, cluster(cd_turma)) ///
-             , indepvars(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d) cluster(cd_turma) strata(estrato) reps(1000) seed(20150101) nodots
+             , indepvars(d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d, d) cluster(cd_turma) strata(estrato) reps(`REPS') seed(20150101) nodots
 
         forvalues c = 1/7 {
             foreach v in sm pca_consump_sm pca_save_sm {

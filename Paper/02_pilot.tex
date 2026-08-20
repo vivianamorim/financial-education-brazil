@@ -21,7 +21,7 @@ Module (grade range) & Pedagogical format & Core content \\
 \midrule
 Project-based (grades 1--4) & Four projects per grade built around objects of everyday life; in third grade: a ball, the household's bills, the school, and a book fair. & Where prices come from; needs vs.~wants; household income and expenses; care for shared public and private spaces; short-term planning and estimation. \\
 \addlinespace
-Choose-your-own-adventure (grades 5--6) & Three branching stories centered on sustainable consumption (the ``five R's''), each with financially better and worse routes, plus a closing group project with a real budget. & Conscious consumption; value vs.~price; cash vs.~installment purchases; saving; risk; first psychological traps (e.g., ostentation, immediacy). \\
+Choose-your-own-adventure (grades 5--6) & Three branching stories centered on sustainable consumption (the ``five R's'': rethink, refuse, reduce, reuse, and recycle), each with financially better and worse routes, plus a closing group project with a real budget. & Conscious consumption; value vs.~price; cash vs.~installment purchases; saving; risk; first psychological traps (e.g., ostentation, immediacy). \\
 \addlinespace
 Role-playing (grades 7--8) & A six-session game in which student groups play community organizations, negotiate proposals, and manage a running budget; one financial concept is added per session. & Personal budgeting; investment and the risk--return trade-off; financing, borrowing, and interest; insurance and patrimony protection; further traps (e.g., framing, sunk costs). \\
 \addlinespace
@@ -43,11 +43,88 @@ The teacher's books also present the program as complementary to students' learn
 
 \subsection{Sampling and Randomization}\label{subsec:sample}
 
-The sampling frame comprised 374 municipal schools offering elementary or middle school grades: 72 in Joinville and 302 in Manaus.\footnote{The frame is documented in the pilot's implementation report, prepared by the World Bank in August 2016. Relative to the 2015 School Census, which records 369 municipal schools offering elementary and middle school education in Manaus and 83 in Joinville, the frame leaves out 67 schools in Manaus and 11 in Joinville. In Manaus, the majority of the schools out of the sample frame are in riverside communities that are very challenging to access for data collection. In Joinville, the 11 schools left out are all small rural schools.} To account for differences in infrastructure and socioeconomic context across the two municipalities, we stratified by municipality and by school type: schools offering only elementary grades (grades 1--5), schools offering only middle school grades (grades 6--9), and schools offering all elementary and middle school grades (grades 1--9), giving six strata in total (\autoref{tab:sample}).
+The sampling frame comprised 374 municipal schools offering elementary or middle school grades: 72 in Joinville and 302 in Manaus.\footnote{The frame is documented in the pilot's implementation report, prepared by the World Bank in August 2016. Relative to the 2015 School Census, which records 369 municipal schools offering elementary and middle school education in Manaus and 83 in Joinville, the frame leaves out 67 schools in Manaus and 11 in Joinville. In Manaus, the majority of the schools out of the sample frame are in riverside communities that are very challenging to access for data collection. In Joinville, the 11 schools left out are all small rural schools.} To account for differences in infrastructure and socioeconomic context across the two municipalities, we stratified by municipality and by school type: schools offering only elementary grades (grades 1--5), schools offering only middle school grades (grades 6--9), and schools offering all elementary and middle school grades (grades 1--9), giving six strata in total (\autoref{fig:sampling_flow}).
 
 The 72 schools in the Joinville frame entered the study. In Manaus, the budget did not allow us to survey all 302 schools, so we drew 129 of them. All 65 schools offering grades 1--9 were included. In the two remaining strata, we ranked schools by their 2013 IDEB, a school-level index that combines student performance in reading and mathematics with grade promotion rates,\footnote{IDEB stands for \textit{Índice de Desenvolvimento da Educação Básica}. A school's IDEB is measured in grade 5 for the elementary grades and in grade 9 for the middle school grades.} and drew the same number of schools at random from each quartile of that ranking: 9 schools per quartile among schools offering only elementary grades, totaling 36, and 7 schools per quartile among schools offering only middle school grades, totaling 28.\footnote{Taking the same number from every quartile ensures that the sample spans the full range of school quality in the municipality rather than concentrating on schools of average performance.} Within each of the six strata, we then randomly assigned roughly half of the schools to treatment and half to control, independently of the IDEB ranking used to draw the sample, yielding 201 study schools, 101 treated and 100 control.
 
-Budgetary constraints also shaped other aspects of the design. First, the pilot could not include all elementary and middle grades. In agreement with AEF-Brasil, we selected grades 3, 5, 7, and 9 to generate evidence on each of the four pedagogical modules. Second, we did not conduct a baseline student survey and instead relied on rich school-level administrative data to perform pre-treatment balance tests (\autoref{sec:data_c}). Third, within each school, the program was not delivered to every class of the pilot grades: at the beginning of the 2015 school year, each school principal, in both treatment and control schools, selected a single class at each pilot grade to be included in the survey sample. Across the 201 pilot schools, the median number of classes per pilot grade was three,\footnote{2015 School Census.} so principals typically chose one of about three classes per grade.
+% Figure: sampling flow chart. Every number comes from the macros in Fig_sampling_flow_numbers.tex,
+% written by 3_Descriptives.do (sampling flow chart block); the tikzpicture holds layout only.
+\tablefragment{../Datawork/Output/Tables/Fig_sampling_flow_numbers.tex}
+\begin{figure}[h!]
+\centering
+\fontsize{9}{11}\selectfont
+\begin{tikzpicture}[
+    font = \footnotesize,
+    block/.style   = {draw, rounded corners = 2pt, align = center, inner sep = 4pt},
+    excl/.style    = {block, fill = gray!15},
+    stratum/.style = {block, fill = gray!7, minimum width = 15mm},
+    arr/.style     = {-{Latex[length = 1.8mm]}, thin}
+  ]
+
+  %Universe and schools excluded from the frame
+  \node[block] (uni) {\textbf{Universe: \FlowUniverse{} schools (2015 School Census)}\\[1pt]
+      by grades offered: 1--5, 6--9, or both\\
+      Joinville \FlowUniJ{} = \FlowJAi{} + \FlowJAf{} + \FlowJBoth\\
+      Manaus \FlowUniM{} = \FlowMAi{} + \FlowMAf{} + \FlowMBoth};
+  \node[excl, right = 9mm of uni] (out1) {\textbf{\FlowExcl{} excluded from the frame}\\[1pt]
+      \FlowExclM{} Manaus, mostly riverside\\
+      \FlowExclJ{} Joinville, small rural};
+  \draw[arr] (uni) -- (out1);
+
+  %Six strata inside the two municipal frames
+  \node[stratum, below = 18mm of uni.south west, anchor = north west, xshift = -14mm]
+        (a1) {\textbf{A.1}\\ grades 1--5\\ \textbf{\FlowAOne}};
+  \node[stratum, right = 3mm of a1] (a2) {\textbf{A.2}\\ grades 6--9\\ \textbf{\FlowATwo}};
+  \node[stratum, right = 3mm of a2] (a3) {\textbf{A.3}\\ grades 1--9\\ \textbf{\FlowAThree}};
+  \node[stratum, right = 16mm of a3] (b1) {\textbf{B.1}\\ grades 1--5\\ \textbf{\FlowBOne}};
+  \node[stratum, right = 3mm of b1]  (b2) {\textbf{B.2}\\ grades 6--9\\ \textbf{\FlowBTwo}};
+  \node[stratum, right = 3mm of b2]  (b3) {\textbf{B.3}\\ grades 1--9\\ \textbf{\FlowBThree}};
+
+  \node[font = \footnotesize, above = 2mm of a2] (frJt) {\textbf{Joinville frame: \FlowFrameJ{} schools}};
+  \node[draw, rounded corners = 3pt, fit = (a1)(a3)(frJt), inner sep = 2mm] (frJ) {};
+  \node[font = \footnotesize, above = 2mm of b2] (frMt) {\textbf{Manaus frame: \FlowFrameM{} schools}};
+  \node[draw, rounded corners = 3pt, fit = (b1)(b3)(frMt), inner sep = 2mm] (frM) {};
+
+  \draw[arr] (uni.south) -- ++(0,-4mm) -| (frJ.north);
+  \draw[arr] (uni.south) -- ++(0,-4mm) -| (frM.north);
+
+  %Entry into the study: no draw in Joinville, IDEB-quartile draw in Manaus
+  \node[block, below = 10mm of frJ] (selJ) {\textbf{Joinville: all \FlowFrameJ{} enter}\\ no draw needed};
+  \node[block, below = 10mm of frM, xshift = -12mm] (selM) {\textbf{Manaus: \FlowStudyM{} enter}\\
+      B.3: all \FlowBThree{} enter\\
+      B.1: \FlowDrawBOne{} drawn (\FlowQuartBOne{} per IDEB quartile)\\
+      B.2: \FlowDrawBTwo{} drawn (\FlowQuartBTwo{} per IDEB quartile)};
+  \node[excl, right = 5mm of selM] (out2) {\textbf{\FlowNotDrawn{} not drawn}\\
+      \FlowNotDrawnBOne{} in B.1, \FlowNotDrawnBTwo{} in B.2\\ budget limit};
+
+  \draw[arr] (frJ) -- (selJ);
+  \draw[arr] (frM.south) -- ++(0,-3mm) -| (selM.north);
+  \draw[arr] (frM.south -| out2.north) -- (out2.north);
+
+  %Study sample and randomization
+  \node[block, below = 12mm of selM, xshift = -32mm] (study)
+      {\textbf{Study sample: \FlowStudy{} schools}\\
+       \FlowStudyJ{} Joinville, \FlowStudyM{} Manaus\\
+       randomized within the 6 strata};
+  \draw[arr] (selJ.south) -- ++(0,-4mm) -| ([xshift = -10mm]study.north);
+  \draw[arr] (selM.south) -- ++(0,-4mm) -| ([xshift = 10mm]study.north);
+
+  \node[block, fill = gray!7, below = 8mm of study, xshift = -22mm] (T) {\textbf{Treatment}\\ \FlowTreat{} schools};
+  \node[block, fill = gray!7, below = 8mm of study, xshift = 22mm]  (C) {\textbf{Control}\\ \FlowControl{} schools};
+  \draw[arr] (study.south) -- ++(0,-3mm) -| (T.north);
+  \draw[arr] (study.south) -- ++(0,-3mm) -| (C.north);
+\end{tikzpicture}
+\caption{From the school universe to the randomized sample}\label{fig:sampling_flow}
+
+\begin{minipage}{\textwidth}
+\fontsize{9}{9}\selectfont
+\textit{Notes}: The figure tracks the schools from the 2015 School Census universe to the randomized sample. School counts in the universe follow the census enrollment flags for each cycle (grades 1--5 and 6--9). The six strata are defined by municipality and school type: A.1--A.3 in Joinville and B.1--B.3 in Manaus, each in the order grades 1--5 only, grades 6--9 only, and grades 1--9. The strata classify schools by the grades targeted by the pilot: a school serves the elementary cycle if it offers grade 3, which reassigns nine schools offering grade 5 but not grade 3 (one in Joinville, eight in Manaus) to the 6--9 strata. In Manaus, the majority of the schools out of the sampling frame are in riverside communities that are very challenging to access for data collection; the 11 schools left out in Joinville are all small rural schools. The 72 schools in the Joinville frame entered the study, as did all 65 Manaus schools offering grades 1--9 (stratum B.3). In strata B.1 and B.2, the budget did not allow us to survey every school, so we ranked schools by their 2013 IDEB, a school-level index that combines student performance in reading and mathematics with grade promotion rates, and drew the same number of schools at random from each quartile of that ranking. Within each of the six strata, we then randomly assigned roughly half of the schools to treatment and half to control, independently of the IDEB ranking; stratum B.3 holds an odd number of schools, hence 33 treated and 32 control.
+
+\textit{Source}: Sampling frame from the pilot's implementation report, prepared by the World Bank in August 2016; school counts for the comparison with the census from the 2015 School Census (INEP).
+\end{minipage}
+\end{figure}
+
+Budgetary constraints also shaped other aspects of the design. First, the pilot could not include all elementary and middle grades. In agreement with AEF-Brasil, we selected grades 3, 5, 7, and 9 to generate evidence on each of the four pedagogical modules shown in \autoref{tab:materials}. Second, we did not conduct a baseline student survey and instead relied on rich school-level administrative data to perform pre-treatment balance tests (\autoref{sec:data_c}). Third, within each school, the program was not delivered to every class of the pilot grades: at the beginning of the 2015 school year, each school principal, in both treatment and control schools, selected a single class at each pilot grade to be included in the survey sample. Across the 201 pilot schools, the median number of classes per pilot grade was three,\footnote{2015 School Census.} so principals typically chose one of about three classes per grade.
 
 This within-school selection of classes could be a potential source of bias. Because randomization preceded principals' class selection, principals in treated schools knew their school's assignment and may have selected the classes to receive the program strategically, for example, choosing their strongest classes, a possibility their control-school counterparts had no reason to mirror. As we show in \autoref{sec:data_c}, however, students' socioeconomic characteristics, teachers characteristics, and pre-treatment student-level performance in standardized test scores are balanced across treatment arms. The only exception is ninth graders' reading test scores obtained in grade 5. Students in the control group display higher pre-treatment reading scores. If higher reading scores in grade 5 correlates (predicts) financial proficiency, this imbalance would bias our estimates downward. As a robustness check, we show treatment effect estimates controlling for baseline scores in standardized tests whenever the information is available.  
 
