@@ -145,18 +145,18 @@ As discussed in \autoref{sec:implementation}, there is evidence of two-sided imp
 
 We measure exposure using two definitions, regardless of the arm to which the school was assigned. The conservative one is defined at the class level: it sets $Z=1$ when a teacher reports delivering financial education lessons.\footnote{If the teacher answered the question ``\textit{How many financial education lessons did you teach?}'', with answer categories running from one to eight or more, or the question ``\textit{What share of the student textbook did you cover?}'', with categories running from below 40\% to above 80\%.} For the classes whose teachers did not answer the teacher questionnaire, we set $Z=1$ if more than half of the students from those classes report having had financial education lessons. The broad definition is set at the student level: it sets $Z=1$ when a teacher of the student's class reports delivering the financial education classes, as in the conservative definition, or when the student themselves reports having had them. Under the conservative definition, 97.8\% of students in treated classes and 11.1\% in control classes are classified as exposed; under the broad definition, 97.3\% and 21.5\%, respectively.
 
-We estimate the local average treatment effect (LATE) by two-stage least squares. The first stage is
+We estimate the local average treatment effect (LATE) using the two-stage least squares. The first stage estimation equation is given by
 \begin{align}
      Z_{ism} = \pi_0 + \pi_1 T_{ism} + \sum_{n=1}^{6} \gamma_n + \nu_{ism}
      \label{eq:Y2}
 \end{align}
-and the second stage is
+and the second stage equation is estimated as follows
 \begin{align}
     Y_{ism} = \lambda_0 + \lambda_1 \widehat{Z}_{ism} + \sum_{n=1}^{6} \gamma_n + \omega_{ism}
     \label{eq:Y3}
 \end{align}
 \noindent
-where $Z$ is the exposure of student $i$'s class under the conservative definition and the student's own exposure under the broad one, $T$ is the random assignment of \autoref{eq:Y}, and the remaining notation follows that equation. Standard errors are clustered at the school level, the randomization unit. The parameter of interest, $\lambda_1$, is the LATE: the average effect of exposure among compliers, that is, the classes (under the conservative definition) or students (under the broad definition) that were exposed to the program because their school was assigned to the treatment group, and would not have been exposed otherwise.
+where $Z$ is the exposure of student $i$'s class under the conservative definition and the student's own exposure under the broad one, $T$ is the random assignment of \autoref{eq:Y}, and the remaining notation follows that equation. Standard errors are clustered at the school level, the randomization unit. The parameter of interest, $\lambda_1$, is the LATE: the average effect of the program among the compliers, that is, the classes (under the conservative definition) or students (under the broad definition) that were exposed to the program because their school was assigned to the treatment group, and would not have been exposed otherwise.
 
 \autoref{tab:iv} reports the LATE estimates next to the ITT under both definitions of exposure.\footnote{The first-stage estimates behind each LATE are reported in \autoref{tab:first_stage}.} For financial proficiency the differences are moderate: among middle school students, the effect rises from 0.099 of a standard deviation to 0.112 under the conservative definition and 0.135 under the broad one. For the attitude indices in grade 5, the correction is substantial: under the broad definition, the effect on the consumption index rises from 0.122 to 0.202 of a standard deviation, and on the saving index from 0.087 to 0.143. Exposure to the program therefore had modest effects on financial proficiency even among the classes that delivered the content, while its effects on the reported attitudes of younger students are sizeable once imperfect compliance is taken into account; since the broad definition relies on students' own reports, these larger estimates are best read as upper bounds.
 
