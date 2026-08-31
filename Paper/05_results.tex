@@ -50,33 +50,6 @@ To investigate whether the intervention had distributional impacts on financial 
 
 We further explore whether the program affected students' behavioral outcomes. These are self-reported measures, but more objective than the attitudional indeces. \autoref{tab:ITT_beha} shows that fifth graders are 5.7 pp (11.6 percent over the control mean) more likely to talk with their parents about money or family expenses, and 5.6 pp (28.4 percent) more likely to talk about money with their friends. Middle school students are also more likely to talk about money with their friends, but the effect size is small and statistically significant at 10 percent. 
 
-\begin{table}[h!]
-\centering
-\begin{threeparttable}
-\fontsize{9}{10}\selectfont
-\caption{ITT estimates for behavioral outcomes}\label{tab:ITT_beha}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{3}{c}}
-\toprule
- & (1) & (2) & (3) \\
- & Pooled & Elementary & Middle school \\
-\midrule
-\tablefragment{../Datawork/Output/Tables/Table4.tex}
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\fontsize{9}{9}\selectfont
-\item \textit{Notes}: Clustered standard errors at the school level in parentheses. RW denotes Romano-Wolf stepdown p-values (1{,}000 bootstrap replications resampling school clusters within randomization strata), adjusting for the joint testing of the 15 regressions reported in this table (every outcome in every subsample) as a single family, and RI denotes randomization inference (1{,}000 repetitions); both are reported below the standard error. Stars denote significance levels based on the Romano-Wolf adjusted p-value: * 10\%, ** 5\%, *** 1\%. Talking about money or expenses with parents equals 1 if the student reports discussing household expenses or talking about money with their parents, and 0 otherwise; the remaining variables equal 1 if the student talks about money with friends, keeps a piggy bank, has access to at least one financial service (bank account, debit card, or credit card), or receives an allowance from their parents, and 0 otherwise. The sample is restricted to fifth-, seventh-, and ninth-grade students.
-\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students at the end of the 2015 school year.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-Our estimates show that the program had larger impacts on financial proficiency in later grades and larger effects on attitudes and behavior in earlier grades. The results then suggest that the association between financial proficiency and behavioral change might not be straightforward. Individuals might have formal knowledge across different subjects, such as financial proficiency, but the application of that knowledge in real life can be hindered by the institutional environment they are embedded in \citep{carpena2020causal}. To formally test the hypothesis that learning mediates change in behavior, we follow \cite{imai2011unpacking} and
-decompose the treatment effect estimates into the average causal mediation effect (ACME) and
-the average causal direct effect (ADE).\footnote {See the online appendix for a formal discussion of Causal Mediation Effects.} The goal of this exercise is to assess the share of the change in behavioral outcomes that could be attributed to improvements in financial proficiency (ACME) and the share that comes directly from the program (ADE).\footnote{The decomposition of ITT effects on ACME and ADE relies on the sequential ignorability assumption. The first part of the assumption assumes that, conditioned on pre-treatment confounders, the treatment assignment is orthogonal to the potential outcomes and the mediator outcome (financial proficiency). The second part of the assumption implies that the observed mediator is ignorable given the actual treatment status and pre-treatment confounders \citep{imai2011unpacking}. This second part of the assumption is the strongest, even in the presence of random assignment. It posits that, conditional on the actual treatment (not the treatment assignment) and a vector of pre-treatment confounders, the outcome is independent of the mediator. Note that in our case, this implies the assumption that attitudinal and behavioral outcomes are orthogonal to financial proficiency, given the actual treatment and after controlling for a vector of school characteristics. Since we did not design the experiment to obtain clean estimates of the ACME and ADE, we interpret our results as suggestive evidence.}
-
-According to the estimates in \autoref{tab:acme}, financial proficiency mediates part of the improvement in students' hypothetical attitudes toward consumption: among middle school students, the mediated component accounts for about half of the total effect. For elementary school students, by contrast, every mediated component is statistically indistinguishable from zero, so the effects on attitudes and on talking about money with parents and friends are direct. The same holds for the behavioral outcomes at both school levels, where the mediated components are negligible. In other words, the ADE and ACME estimates suggest that financial education programs affect students' attitudes and behavior through pathways other than the accumulation of formal knowledge. Overall, the estimates do not support the hypothesis that changes in financial proficiency are a necessary condition for changes in individuals' behavioral outcomes, a finding consistent with \citet{carpena2020causal} and \citet{de2021effect}.
-
 Finally, we test whether the gains in financial proficiency and the more prudent attitudes toward saving and consumption, which might indicate that students became more forward-looking, translate into higher investment in human capital. If that were the case, we should see lower repetition and dropout and higher proficiency in Portuguese and math.
 
  %We look at grade repetition and dropout between 2015 and 2018; at \textit{Prova Brasil} Portuguese and math scores, measured in the pilot year for the fifth- and ninth-grade cohorts and two years later for the third- and seventh-grade cohorts; and, for the ninth-grade cohort, at high-school completion and \textit{ENEM} outcomes in 2018.
@@ -127,6 +100,37 @@ Obs. & 4650 & 4755 & 3137 & 2851 \\
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
+
+
+Our estimates show that the program had larger impacts on financial proficiency in later grades and larger effects on attitudes and behavior in earlier grades. The results then suggest that the association between financial proficiency and behavioral change might not be straightforward. Individuals might have formal knowledge across different subjects, such as financial proficiency, but the application of that knowledge in real life can be hindered by the institutional environment they are embedded in \citep{carpena2020causal}. To formally test the hypothesis that learning mediates change in behavior, we follow \cite{imai2011unpacking} and
+decompose the treatment effect estimates into the average causal mediation effect (ACME) and
+the average causal direct effect (ADE).\footnote {See the online appendix for a formal discussion of Causal Mediation Effects.} The goal of this exercise is to assess the share of the change in behavioral outcomes that could be attributed to improvements in financial proficiency (ACME) and the share that comes directly from the program (ADE).\footnote{The decomposition of ITT effects on ACME and ADE relies on the sequential ignorability assumption. The first part of the assumption assumes that, conditioned on pre-treatment confounders, the treatment assignment is orthogonal to the potential outcomes and the mediator outcome (financial proficiency). The second part of the assumption implies that the observed mediator is ignorable given the actual treatment status and pre-treatment confounders \citep{imai2011unpacking}. This second part of the assumption is the strongest, even in the presence of random assignment. It posits that, conditional on the actual treatment (not the treatment assignment) and a vector of pre-treatment confounders, the outcome is independent of the mediator. Note that in our case, this implies the assumption that attitudinal and behavioral outcomes are orthogonal to financial proficiency, given the actual treatment and after controlling for a vector of school characteristics. Since we did not design the experiment to obtain clean estimates of the ACME and ADE, we interpret our results as suggestive evidence.}
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+\fontsize{9}{10}\selectfont
+\caption{ITT estimates for behavioral outcomes}\label{tab:ITT_beha}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l*{3}{c}}
+\toprule
+ & (1) & (2) & (3) \\
+ & Pooled & Elementary & Middle school \\
+\midrule
+\tablefragment{../Datawork/Output/Tables/Table4.tex}
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\fontsize{9}{9}\selectfont
+\item \textit{Notes}: Clustered standard errors at the school level in parentheses. RW denotes Romano-Wolf stepdown p-values (1{,}000 bootstrap replications resampling school clusters within randomization strata), adjusting for the joint testing of the 15 regressions reported in this table (every outcome in every subsample) as a single family, and RI denotes randomization inference (1{,}000 repetitions); both are reported below the standard error. Stars denote significance levels based on the Romano-Wolf adjusted p-value: * 10\%, ** 5\%, *** 1\%. Talking about money or expenses with parents equals 1 if the student reports discussing household expenses or talking about money with their parents, and 0 otherwise; the remaining variables equal 1 if the student talks about money with friends, keeps a piggy bank, has access to at least one financial service (bank account, debit card, or credit card), or receives an allowance from their parents, and 0 otherwise. The sample is restricted to fifth-, seventh-, and ninth-grade students.
+\item \textit{Source}: Authors' estimates based on the pilot questionnaires applied by CAEd to students at the end of the 2015 school year.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+According to the estimates in \autoref{tab:acme}, financial proficiency mediates part of the improvement in students' hypothetical attitudes toward consumption: among middle school students, the mediated component accounts for about half of the total effect. For elementary school students, by contrast, every mediated component is statistically indistinguishable from zero, so the effects on attitudes and on talking about money with parents and friends are direct. The same holds for the behavioral outcomes at both school levels, where the mediated components are negligible. In other words, the ADE and ACME estimates suggest that financial education programs affect students' attitudes and behavior through pathways other than the accumulation of formal knowledge. Overall, the estimates do not support the hypothesis that changes in financial proficiency are a necessary condition for changes in individuals' behavioral outcomes, a finding consistent with \citet{carpena2020causal} and \citet{de2021effect}.
+
+
 
 \subsection{Robustness Check} 
 
